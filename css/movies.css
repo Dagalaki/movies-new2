@@ -1,4 +1,30 @@
 
+.feature-container{
+        width: 680px;
+        height: 250px;
+        left:145px;
+        top:135px;
+}
+
+.feature-container .btn {
+    width: 150px;
+    height: 50px;
+    color: white;
+    background-color: grey;
+    border-radius: 5px;
+    margin: 10px;
+    position: relative;
+    font-size: 20px;
+    line-height: 50px;
+    float: left;
+    text-align: center;
+}
+
+.feature-container .btn.focused{
+    color:black;
+    background-color: white;
+}
+
 .genres{
    /*margin-left: 10px;*/
 }
@@ -334,7 +360,8 @@ transition: top 1s;
 .episodes-category {
     margin:0 0 10px 0;
     height: 330px;
-    /*top: 450px;*/
+top: 225px;
+
 }
 .portrait-category{
     height: 240px;

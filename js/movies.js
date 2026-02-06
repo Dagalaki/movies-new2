@@ -868,6 +868,127 @@ function getVersion() {
 	return version;
 }
 
+
+function Feature(idnam , feature){
+	this.idnam = idnam;
+	this.feature = feature;
+	this.focusedId = 0;
+}
+Feature.prototype = new BaseObject();
+Feature.prototype.init = function (parent, xpos , ypos){
+	var e = createClassDiv("", "", "feature-container");
+	parent.appendChild(e);
+	this.baseInit(e);
+	this.register();
+	this.buttons = [];
+
+	var play = createClassDiv('', '', 'btn');
+	play.innerHTML = 'Play';
+	var info = createClassDiv('', '', 'btn');
+	info.innerHTML = 'More Info';
+
+
+	this.elem.appendChild(play);
+	this.elem.appendChild(info);
+
+	this.buttons[0] = play;
+	this.buttons[1] = info;
+
+
+}
+Feature.prototype.setInfoData = function (){
+	var info = document.getElementsByClassName("info-cont")[document.getElementsByClassName("info-cont").length-1];
+	info.getElementsByClassName("info-title")[0].innerHTML = this.feature.title;
+			info.getElementsByClassName("info-subtitle")[0].innerHTML = this.feature.originalTitle;
+			var genresArray = this.feature.genres; // ["Action","Crime","Drama"]
+			var onGenres = ""; 
+			for (var i = 0; i < genresArray.length; i++) {
+			    if (i > 0) {
+			        onGenres += ", ";
+			    }
+			    onGenres += '<label class="genres">' + genresArray[i] + '</label>';
+			}
+
+			var castArray = this.feature.cast;
+			var castStr = "";
+			for (var i = 0; i < castArray.length; i++) {
+			    if (i > 0) {
+			        castStr += ", ";
+			    }
+			    castStr += castArray[i];
+			}
+
+			info.getElementsByClassName("info-data")[0].innerHTML = '<label class="l-year">' +this.feature.year + " "+ this.feature.country + "</label><br/>" + onGenres+ "</br></br><b>Director: </b>" + this.feature.director+ "</br>Cast: " + castStr;
+			
+}
+Feature.prototype.setFocused = function (otherobj, focus){
+	for(var i= 0; i< this.buttons.length; i++){
+		if(focus){
+			this.elem.style.display = 'block';
+			if(i == this.focusedId) {
+				
+				this.buttons[i].addClass('focused');
+				this.setInfoData();
+
+				if(VIDEO_PREVIEW){
+					if(GLOBALS.previewTimer) clearTimeout(GLOBALS.previewTimer);
+					GLOBALS.previewTimer = null;
+					var me = this;
+					var item = this.feature;
+					GLOBALS.previewTimer = setTimeout(function(){
+						
+						if(item.mp4)
+							GLOBALS.videopreview.setSourceWithHardReset("http://smarttv.anixa.tv/movies-new/" + item.mp4);
+						GLOBALS.previewTimer = null;
+					}, 500);
+					var imgToShow = me.feature.img;
+					if(window.location.hostname == "127.0.0.1"){
+						imgToShow = item.poster;
+						GLOBALS.videopreview.setBgImg(imgToShow);
+
+					}
+
+					GLOBALS.videopreview.setBgImg('http://smarttv.anixa.tv/movies-new/'+item.trailerThumb);
+				}
+
+			}
+			else {
+				this.buttons[i].removeClass('focused');
+				
+			}
+		}else{
+			this.buttons[i].removeClass('focused');
+			this.elem.style.display = 'none';
+		}
+	}
+
+}
+Feature.prototype.handleKeyPress = function(keycode){
+	switch(keycode){
+		case VK_DOWN:
+			document.getElementsByClassName('episodes-category')[0].style.top = '0px';
+
+			GLOBALS.focusmgr.focusObject('cat-list-0', true);
+			break;
+		case VK_RIGHT:
+			this.focusedId++;
+			if(this.focusedId > this.buttons.length-1) this.focusedId = this.buttons.length-1;
+			this.setFocused(this.idnam, true);
+			break;
+		case VK_LEFT:
+			this.focusedId--;
+			if(this.focusedId < 0 ){
+				this.focusedId = 0;
+			}
+			this.setFocused(this.idnam, true);
+			break;
+		default:
+			break;
+	}
+}
+
+
+
 function ListCont(idnam, data) {
 	this.idnam = idnam;
 	this.focusedId = 0;
@@ -905,10 +1026,21 @@ debug(this.data);
 		    }
 		}
 
+		
+
+		var feature = new Feature('feature', this.data[genres[0]][6]);
+		feature.init(this.elem, "", "");
+
+
+
+
 		for (var i = 0; i < genres.length; i++) {
 		    var genre = genres[i];          // e.g., "Action"
 		    var movies = this.data[genre];  // array of movies
 		    debug(movies);
+
+
+
 
 		    // create HorizontalList for this genre
 		    //var list = new HorizontalList("inner-list-" + i, i);
@@ -929,9 +1061,10 @@ debug(this.data);
 		/*if(GLOBALS.focusmgr.getObject("inner-list-0")){
 			GLOBALS.focusmgr.focusObject("inner-list-0");
 		}*/
-		if(GLOBALS.focusmgr.getObject("cat-list-0")){
+		/*if(GLOBALS.focusmgr.getObject("cat-list-0")){
 			GLOBALS.focusmgr.focusObject("cat-list-0");
-		}
+		}*/
+		GLOBALS.focusmgr.focusObject("feature", true);
 	}else{
 		for (var i = 0; i < categories.length; i++) {
 
@@ -1467,10 +1600,15 @@ HorizontalList.prototype.handleKeyPress = function (keyCode) {
 			if(o) o.focusedId--;
 			if(o && o.focusedId<0){
 				o.focusedId = 0;
-				if(o.idnam == "episodes-list-cont"){
+				document.getElementsByClassName('episodes-category')[0].style.top = '225px';
+				var f = GLOBALS.focusmgr.getObject('feature');
+				f.elem.style.display = 'block';
+				GLOBALS.focusmgr.focusObject('feature', true);
+				break;
+				/*if(o.idnam == "episodes-list-cont"){
 					GLOBALS.focusmgr.focusObject("show-detail");
 					return;
-				}
+				}*/
 			}
 			if(o && o.idnam == "episodes-list-cont"){
 				if (GLOBALS.focusmgr.getObject("inner-list-" + o.focusedId)) {
@@ -1491,6 +1629,7 @@ HorizontalList.prototype.handleKeyPress = function (keyCode) {
 				}
 			}
 			if (o.focusedId < 0) {
+
 				o.focusedId = 0;
 				var lc = GLOBALS.focusmgr.getObject("list-cont");
 				lc.elem.classList.toggle("moveTop")
