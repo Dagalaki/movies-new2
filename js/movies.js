@@ -970,14 +970,7 @@ Feature.prototype.handleKeyPress = function(keycode){
 
 			GLOBALS.focusmgr.focusObject('cat-list-0', true);
 			break;
-		case VK_LEFT:
-			returnfocus = this.idnam;
-				var sm = GLOBALS.focusmgr.getObject("side-menu");
-				sm.elem.classList.toggle("open");
-				GLOBALS.focusmgr.focusObject("side-menu");
-				cleardebug();
-				
-			break;
+		
 		case VK_RIGHT:
 			this.focusedId++;
 			if(this.focusedId > this.buttons.length-1) this.focusedId = this.buttons.length-1;
@@ -987,6 +980,12 @@ Feature.prototype.handleKeyPress = function(keycode){
 			this.focusedId--;
 			if(this.focusedId < 0 ){
 				this.focusedId = 0;
+				returnfocus = this.idnam;
+				var sm = GLOBALS.focusmgr.getObject("side-menu");
+				sm.elem.classList.toggle("open");
+				GLOBALS.focusmgr.focusObject("side-menu");
+				cleardebug();
+				break;
 			}
 			this.setFocused(this.idnam, true);
 			break;
