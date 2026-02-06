@@ -970,6 +970,14 @@ Feature.prototype.handleKeyPress = function(keycode){
 
 			GLOBALS.focusmgr.focusObject('cat-list-0', true);
 			break;
+		case VK_LEFT:
+			returnfocus = this.idnam;
+				var sm = GLOBALS.focusmgr.getObject("side-menu");
+				sm.elem.classList.toggle("open");
+				GLOBALS.focusmgr.focusObject("side-menu");
+				cleardebug();
+				
+			break;
 		case VK_RIGHT:
 			this.focusedId++;
 			if(this.focusedId > this.buttons.length-1) this.focusedId = this.buttons.length-1;
@@ -982,6 +990,26 @@ Feature.prototype.handleKeyPress = function(keycode){
 			}
 			this.setFocused(this.idnam, true);
 			break;
+		case VK_ENTER:
+			if(this.focusedId == 0){
+				if(VIDEO_PREVIEW){
+				GLOBALS.videopreview.pause();
+				}
+				var item = this.feature;
+				if(1 || GLOBALS.useRef) {
+					var o = GLOBALS.focusmgr.getObject("show-detail");
+					var cat = "";
+					if(o){
+						cat = o.category;
+					}else{
+						cat = this.categoryTitle;
+					}
+					
+					GLOBALS.scenemgr.initVPlayerSession(item.title, item.mp4, cat, (item.subs && item.subs.length ? item.subs : null), false, item);
+					return;
+				}
+			}
+				break;
 		default:
 			break;
 	}
