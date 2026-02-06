@@ -1,0 +1,36 @@
+nav > ul {
+  li {
+    &:not(.current) {
+      &.audio {
+        background-position: 8px 12px;
+        background-image: image-url("icons/menu/audio.png");
+        a {
+          background-position: 8px 12px;
+          background-image: image-url("icons/menu/audio_hover.png");
+        }
+      }
+      &.video {
+        background-image: image-url("icons/menu/video.png");
+        background-position: 8px 12px;
+        a {
+          background-position: 8px 12px;
+          background-image: image-url("icons/menu/video_hover.png");
+        }
+      }
+    }
+    &.current {
+      &.audio {
+        a {
+          background-position: 8px 12px;
+          background-image: image-url("icons/menu/audio_hover.png");
+        }
+      }
+      &.video {
+        a {
+          background-position: 8px 12px;
+          background-image: image-url("icons/menu/video_hover.png");
+        }
+      }
+    }
+  }
+}

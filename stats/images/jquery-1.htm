@@ -1,0 +1,567 @@
+
+    <!doctype html>
+<!--[if lt IE 8 ]>
+<html lang="en" class="no-js ie ie7"><![endif]-->
+<!--[if IE 8 ]>
+<html lang="en" class="no-js ie"><![endif]-->
+<!--[if (gt IE 8)|!(IE)]><!-->
+<html lang="en" class="no-js"><!--<![endif]-->
+<head>
+    <base href="//www.media-theia.de"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>MediaPlan -   </title>
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Global stylesheets -->
+    <link href="css/reset.css" rel="stylesheet" type="text/css">
+    <link href="css/common.css" rel="stylesheet" type="text/css">
+    <link href="css/form.css" rel="stylesheet" type="text/css">
+    <link href="css/standard.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+
+
+    <link href="css/960.gs.fluid.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles -->
+    <link href="css/simple-lists.css" rel="stylesheet" type="text/css">
+    <link href="css/block-lists.css" rel="stylesheet" type="text/css">
+    <link href="css/planning.css" rel="stylesheet" type="text/css">
+    <link href="css/table.css" rel="stylesheet" type="text/css">
+    <link href="css/calendars.css" rel="stylesheet" type="text/css">
+    <link href="css/wizard.css" rel="stylesheet" type="text/css">
+    <link href="css/gallery.css" rel="stylesheet" type="text/css">
+    <link href="js/libs/fancy/jquery.fancybox.css" rel="stylesheet" type="text/css">
+
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+
+    
+
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-touch-icon-57x57.png?v=1164357">
+<link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-touch-icon-60x60.png?v=1164357">
+<link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-touch-icon-72x72.png?v=1164357">
+<link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-touch-icon-76x76.png?v=1164357">
+<link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-touch-icon-114x114.png?v=1164357">
+<link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-touch-icon-120x120.png?v=1164357">
+<link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-touch-icon-144x144.png?v=1164357">
+<link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-touch-icon-152x152.png?v=1164357">
+<link rel="icon" type="image/png" href="images/favicons/favicon-32x32.png?v=1164357" sizes="32x32">
+<link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png?v=1164357" sizes="96x96">
+<link rel="icon" type="image/png" href="images/favicons/favicon-16x16.png?v=1164357" sizes="16x16">
+<link rel="manifest" href="images/favicons/manifest.json?v=1164357">
+<link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg?v=1164357" color="#007fc7">
+<link rel="shortcut icon" href="images/favicons/favicon.ico?v=1164357">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="images/favicons/mstile-144x144.png?v=1164357">
+<meta name="msapplication-config" content="images/favicons/browserconfig.xml?v=1164357">
+<meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+<header>
+    <div id="logo">
+        <a href="/" target="_blank">
+            <img style="height:70px;margin-top:15px;margin-right:5px;" width="auto" src="images/logos/mediaplan.png" title="MediaPlan"/>
+        </a>
+    </div>
+</header>
+
+<nav id="main-navi">
+    <ul class="container_12">
+        <li class="home "><a href="index" title="Home">Home</a></li>
+        <li class="audio "><a href="werbeblock" title="Audio">Audio</a></li>
+        <li class="video "><a href="winsel" title="Video">Video</a></li>
+        <li class="users "><a href="zuschauer" title="Zuschauer Analyse">Zuschauer Analyse</a></li>        <li class="stats "><a href="analytics" title="Analytics Google">Analytics Google</a></li>	<li class="write "><a href="clipreport" title="WerbeClip-Analyse">WerbeClip-Analyse</a></li>        <li class="users "><a href="profil" title="Profil">Profil</a></li>
+        <li class="write"><a href="native/guiWerbeblock.php" title="Native">Native</a></li>        <li class="backup"><a href="alles.html" target="_blank" title="Designvorlage">Designvorlage</a></li>                <li class="stats "><a href="smart-tv-user-data" title="SmartTv Userdaten">Smartdata</a></li>        <li class="stats "><a href="analytics-realtime" title="Analytics Piwik">Analytics Piwik</a></li>        
+        <li class="eventmanagerfacebook "><a href="eventmanager" title="Facebook">Facebook</a></li>        <li class="eventmanagergoogle "><a href="googleeventmanager" title="Google">Google</a></li>        <li class="stats "><a href="triggermanager" title="Google Triggermanager">Google Triggermanager</a></li>                <li class="backup "><a href="fingerprint" title="Fingerprint eintragen">Fingerprint eintragen</a></li>        <li class="stats "><a href="smart-tv-chart" title="Werbesendung Analyse">Werbesendung Analyse</a></li>    </ul>
+</nav>
+
+
+<div id="sub-nav">
+    <div class="container_12">
+
+
+    </div>
+</div>
+<!-- End sub nav -->
+
+<!-- Status bar -->
+<div id="status-bar">
+    <div class="container_12">
+        <ul id="status-infos">
+
+		<li>
+		<select id="mediaacc" name="mediaacc" onchange="accSwitch()">
+		<option value="">Media Account</option>
+		<option value="1">Anixa</option>
+		<option value="2">MediaPlan</option>
+		<option value="7">Smart-Tv-Data</option>
+		</select>
+		</li>
+
+
+		<li class="spaced">Eingeloggt als: <strong> Frank Kriebus </strong></li>
+        	<li><a href="logout" class="button red" title="Logout"><span class="smaller">LOGOUT</span></a></li>
+        </ul>
+
+
+        <!-- v1.5: you can now add class red to the breadcrumb -->
+        <ul id="breadcrumb">
+            <li><a href="/" title="Home">MediaPlan</a></li>
+            <li><a href="#" title=""></a></li>
+        </ul>
+
+    </div>
+</div>
+<!-- End status bar -->
+<div id="header-shadow"></div>
+<!-- End header -->
+
+
+    <article class="container_12">
+</article>
+    <article class="container_12">
+<script>
+function openHistoryReport(){
+
+	var css,inf=['Wichtigkeit','sehr hoch','geht noch','zur Info'];
+	var stat=['Erledigt','Aktiv','in Bearbeitung'];
+
+	$.post("index.php", {ajax: 1, fnc: 'getHistory'}).done(function (jdata) {
+		data = JSON.parse(jdata);
+		$('#historyTable').html('<thead><tr><td>keine Daten gefunden</td></tr></thead>');
+		if( data.length == 0) return;
+
+		$('#historyTable').html('<thead><tr><th scope="col">Nr</th><th>Prio</th><th>Status</th><th>Begin</th><th>Ende</th><th>Titel</th><th>Details</th></tr></thead><tbody>');
+
+		$.each(data, function (i, item) {
+			css='';
+			if(item.status==1) css=' style="background:red;color:#fff;"';
+			if(item.status==2) css=' style="background:green;color:#fff;"';
+
+			$('#historyTable').append('<tr><td>'+item.id+'</td><td>'+inf[item.prio]+'</td>'+
+				'<td'+css+'>'+stat[item.status]+'</td>'+
+				'<td>'+item.von+'</td><td>'+item.bis+'</td><td>'+item.titel+'</td><td>'+item.detail+'</td></tr>');
+
+		});
+		$('#historyTable').append('</tbody>');
+
+	});
+
+	$('#history').show();
+};
+</script>
+
+
+
+<script>
+
+var glob_sd,glob_epg;
+
+function loadNewHour(){
+	var dt=$('#datum-noauto').val();
+	if(dt=='') return(alert('Bitte ein Datum wählen'));
+	openNow(glob_sd,glob_epg,dt)
+}
+
+function openNow(s,e,d){
+	 $.post("index.php", {ajax: 1, fnc: 'getHourUrl', sd: s, day: d }).done(function (jdata) {
+		data = JSON.parse(jdata);
+		$('#werbeblock').hide();
+		$('#hourcut').show();
+		$('#hourvideo').html('');
+		$('#hourh1').html('Stunden &Uuml;bersicht '+e);
+		if( data.length == 0) return;
+
+		$.each(data, function (i, item) {
+			$('#hourvideo').append('<li>'+
+			 '<a href="#" onclick="pl(\''+item.sd+'\',\''+item.clipname+'\');return false">'+
+			 '<img src="//media.anixa.tv/vlc/'+item.sd+'/recall/'+item.pic+'"/ width="200" height="112" title="play video"></a>'+
+			 '<span>'+item.szeit+' - '+item.ende+'</span>'+
+			 '<div class="hourinf">'+item.titel+'</div></li>');
+		});
+		location.hash ='#hour';
+		openWeekBocks(s,e,parseInt(data[0].ywk));
+	 });
+};
+
+function senderListe() {
+
+	 $.post("index.php", {ajax: 1, fnc: 'getAllSender'}).done(function (jdata) {
+		data = JSON.parse(jdata);
+		$('#sat').html('');
+		$('#kabel').html('');
+		var e=0,gp=2;
+		$.each(data, function (i, item) {
+		 if(item.type==0){
+			$('#sat').append('<li><a href="/winsel/sender/'+item.sd+'" class="document-film" target="werbeinsel"><span>'+item.epg+'</span></a></li>');
+		 }
+		 if(item.type==1){
+			$('#kabel').append('<li><a href="/winsel/sender/'+item.sd+'" class="document-film" target="werbeinsel"><span>'+item.epg+'</span></a></li>');
+		 }
+		 e++;
+/*
+if(item.gp!=gp){
+gp=item.gp;
+$('#sd_icon').append('<li><div style="clear:both;width:100%"><hr></div></li>');
+}
+*/
+
+		 $('#sd_icon').append('<li><a href="#" onclick="openNow(glob_sd=\''+item.sd+'\',glob_epg=\''+item.epg+'\');return false"><span><img src="images/sender/'+(item.err==0? 'besser':'err')+'/'+item.sd+'.png" class="thumb" width="125" height="80" title="'+(item.err==0? '':'no blachframe with ')+item.epg+'"></span>'+item.epg+'</a></li>');
+
+		});
+		$('#sinfo').append('<li>'+e+' Sender aktiv</li>');
+
+	 });
+};
+
+function wpRefres(){
+    if ($('.wrapper1').length > 0) {
+        $(".div1").width($(".div2 table").width());
+        $(".wrapper1").scroll(function () {
+            $(".wrapper2")
+                .scrollLeft($(".wrapper1").scrollLeft());
+        });
+        $(".wrapper2").scroll(function () {
+            $(".wrapper1")
+                .scrollLeft($(".wrapper2").scrollLeft());
+        });
+    }
+};
+
+function openWeekBocks(s,e,w){
+	if(w==null) $('#werbeblock').hide();
+	$.post("index.php", {ajax: 1, fnc: 'getWeekBlocks', sd: s, week: w}).done(function (jdata) {
+		data = JSON.parse(jdata);
+		$('#weektable').html('<thead><tr><td>keine Daten gefunden</td></tr></thead>');
+		if( data.length == 0) return;
+
+		$('#werbeblockh1').html('Werbeinsel &Uuml;bersicht '+e);
+		$('#werbeblock').show();
+
+		woche= parseInt(data[0].wk);
+		ywoche= parseInt(data[0].ywk);
+		von  = data[0].tag;
+
+		$('#weeknr').html('');
+		$('#weektable').html('<thead><tr><th scope="col">Zeit</th><th scope="col">Sonntag</th><th>Montag</th><th>Dienstag</th><th>Mittwoch</th><th>Donnerstag</th><th>Freitag</th><th>Samstag</th></tr></thead>');
+
+		for(i=0;i<24;i++){
+			$('#weektable').append('<tr><td><span>'+(i>9? i:'0'+i)+':00</span></td><td id="r'+i+'d1"></td><td id="r'+i+'d2"></td><td id="r'+i+'d3"></td><td id="r'+i+'d4"></td><td id="r'+i+'d5"></td><td id="r'+i+'d6"></td><td id="r'+i+'d7"></td></tr>');
+		}
+
+		$.each(data, function (i, item) {
+			id='#r'+item.std+'d'+item.dy;
+
+			lnk='/winsel/datum/'+item.tag+'/sender/'+s+'/block/'+item.block+'/';
+			bis= item.tag;
+
+			$(id).append('<div><a class="a-film" href="'+lnk+'" target="werbeinsel">'+item.szeit.substring(0,5)+' - '+item.ezeit.substring(0,5)+' Spots: '+item.cc+'</a></div>');
+
+		});
+
+		$('#weeknr').append('<li><img src="images/sender/n/'+s+'.png" class="thumb" height="25"></li>'+
+			'<li class="sep"></li>'+
+			'<li>'+von+' - '+bis+'</li>'+
+			'<li class="sep"></li>'+
+			'<li><a title="Previous week" href="#" onclick="return openWeekBocks(\''+s+'\',\''+e+'\',ywoche-1);"><img width="16" height="16" src="images/icons/fugue/navigation-180.png"></a></li>'+
+			'<li class="sep"></li>'+
+			'<li class="controls-block">Woche '+woche+'</li>'+
+			'<li class="sep"></li>'+
+			'<li><a title="Next week" href="#" onclick="return openWeekBocks(\''+s+'\',\''+e+'\',ywoche+1);"><img width="16" height="16" src="images/icons/fugue/navigation.png"></a></li>');
+
+		wpRefres();
+
+	 });
+ return false;
+};
+
+
+window.onload=senderListe;
+
+</script>
+<style>
+.files > li {
+ width:auto;
+}
+.files > li > a > span > img.thumb {
+ border: medium none;
+}
+
+.files > li > a > span {
+ margin: -78px -5px 19px;
+}
+
+.files > li > a {
+ font-size: 8px;
+}
+
+.a-film {
+ background-image: url("../images/icons/fugue/document-film.png");
+ padding-left:17px;
+ background-repeat: no-repeat;
+ color: #666;
+ line-height: 20px;
+}
+
+</style>
+
+<section class="grid_12">
+ <div class="block-border"><div class="block-content">
+	<a name="arbo"><h1>Produktion &Uuml;bersicht</h1></a>
+
+	<div class="block-controls">
+	</div>
+	
+	<div class="content-columns left30">
+		<div class="content-columns-sep"></div>
+		<div class="content-left">
+			
+			<div class="with-head">
+				<div class="head">
+					<div>
+						<div class="button menu-opener">
+							Actions
+							<div class="menu-arrow">
+								<img src="images/menu-open-arrow.png" height="16" width="16">
+							</div>
+							<div class="menu">
+								<ul>
+									<li class="icon_network"><a href="/werbeblock">Audiomatch</a></li>
+									<li class="icon_network"><a href="/winsel">Video</a></li>
+									<li class="icon_network"><a href="/analytics">Analytics</a></li>
+									<li class="sep"></li>
+									<li class="icon_terminal"><a href="/profil">Profil</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="button menu-opener">
+							Filters
+							<div class="menu-arrow">
+								<img src="images/menu-open-arrow.png" height="16" width="16">
+							</div>
+							<div class="menu">
+								<ul>
+									<li class="icon_doc_image"><a href="#">Images only</a></li>
+									<li class="icon_computer"><a href="#">System files</a></li>
+									<li class="sep"></li>
+									<li class="icon_terminal"><a href="#">Custom filter</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="dark-grey-gradient with-padding" style="height:300px; overflow: auto">
+
+					<ul class="arbo with-title">
+						<li>
+							<a href="#" class="title-computer toggle">Video/Audio Werbeblock</a>
+							<ul>
+								<li>
+									<span class="toggle"></span>
+									<a href="#" class="folder"><span>SAT - Sender</span></a>
+									<ul id="sat"><li><span class="loading">Loading...</span></li></ul>
+								</li>
+								<li class="close">
+									<span class="toggle"></span>
+									<a href="#" class="folder"><span>Kabel - Sender</span></a>
+									<ul id="kabel"><li><span class="loading">Loading...</span></li></ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+			
+			<ul class="message">
+				<li>Heimatkanal reciver error</li>
+			</ul>
+			
+		</div>
+		
+		<div class="content-right">
+			
+			<div class="with-head">
+				<div class="head">
+					<div class="black-cell with-gap"><span class="success"></span></div>
+					<div class="black-cell">Sort by</div>
+					<div>
+						<span class="column-sort">
+							<a href="#" title="Sort up" class="sort-up active"></a>
+							<a href="#" title="Sort down" class="sort-down"></a>
+						</span>
+						Name
+					</div>
+					<div>
+						<span class="column-sort">
+							<a href="#" title="Sort up" class="sort-up"></a>
+							<a href="#" title="Sort down" class="sort-down"></a>
+						</span>
+						Date
+					</div>
+					<div>
+						<span class="column-sort">
+							<a href="#" title="Sort up" class="sort-up"></a>
+							<a href="#" title="Sort down" class="sort-down"></a>
+						</span>
+						Filesize
+					</div>
+
+					<ul class="controls-buttons">
+						<li><a href="#" onclick="location.reload();"><img src="images/icons/fugue/arrow-circle.png" height="16" width="16"></a></li>
+					</ul>
+				</div>
+				
+				<div class="dark-grey-gradient with-padding" style="height:300px; overflow: auto">
+					<ul id="sd_icon" class="files"></ul>
+				</div>
+			</div>
+			
+			<ul class="message" id="sinfo">
+			</ul>
+			
+		</div>
+	</div>
+	
+	<div class="block-footer">
+		<span class="float-right">24 folders, 248 files</span>
+		24.5 Mo total
+	</div>
+	
+ </div></div>
+</section>
+
+<section id="hourcut" class="grid_12" style="display:none;">
+ <div class="block-border">
+  <div class="block-content">
+	<a name="hour"><h1 id="hourh1">Stunden &Uuml;bersicht</h1></a>
+	<div class="block-controls">
+	<ul class="form controls-buttons">
+		<li><span class="input-type-text">
+		<input onChange="alert('sorry test')" type="text" name="datum" id="datum-noauto" value="2017-01-11">
+		<img height="16" width="16" src="images/icons/fugue/calendar-month.png" class="trigger datepick-trigger" alt="Popup">
+		</span></li>
+		<li class="sep"></li>
+		<li><a href="#" onclick="loadNewHour();return false"><img src="images/icons/fugue/arrow-circle.png" height="16" width="16"></a></li>
+	</ul>
+  </div>
+	<ul id="hourvideo" class="grid video-match dark-grey-gradient no-margin"></ul>
+  </div>
+ </div>
+</section>
+
+
+<section id="werbeblock" class="grid_12" style="display:none;">
+<div class="block-border"><div class="block-content">
+	<h1 id="werbeblockh1">Werbeblock &Uuml;bersicht</h1>
+	
+	<div class="block-controls">
+		<ul id="weeknr" class="controls-buttons">
+		</ul>
+	</div>
+<div class="no-margin">
+	<div class="wrapper1">
+                        <div class="div1">
+                        </div>
+                    </div>
+                    <div class="wrapper2">
+                        <div class="div2">
+
+	<table id="weektable" width="100%" cellspacing="0" class="table ">
+	</table>
+			</div>
+		</div>
+</div>
+</div></div>
+</section>
+
+
+
+
+
+
+
+<section id="history" class="grid_12" style="display:none;">
+<div class="block-border"><div class="block-content">
+	<h1 id="werbeblockh1">History Report</h1>
+	<div class="block-controls">
+		<ul id="historyBT" class="controls-buttons"></ul>
+	</div>
+	<div class="no-margin">
+		<table id="historyTable" width="100%" cellspacing="0" class="table"></table>
+	</div>
+</div></div>
+</section>
+
+
+</article>
+
+
+    <footer>
+    
+
+    <div class="float-right">
+        <a href="#top" class="button"><img src="images/icons/fugue/navigation-090.png" width="16" height="16"> Page top</a>
+    </div>
+
+</footer>
+
+<!--
+
+Updated as v1.5:
+Libs are moved here to improve performance
+
+-->
+<div id="loader"></div>
+<!-- Generic libs -->
+<script src="js/libs/jquery-1.11.3.min.js"></script>
+<script src="js/libs/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/libs/jquery-ui.min.js"></script>
+<!--<script src="js/libs/jquery.hashchange.js"></script>-->
+
+<!-- Template libs -->
+<script src="js/jquery.accessibleList.js"></script>
+<script src="js/searchField.js"></script>
+<script src="js/common.js"></script>
+<script src="js/standard.js"></script>
+<!--[if lte IE 8]><script src="js/standard.ie.js"></script><![endif]-->
+<script src="js/jquery.tip.js"></script>
+<script src="js/jquery.contextMenu.js"></script>
+<script src="js/jquery.modal.js"></script>
+
+<!-- Custom styles lib -->
+<script src="js/list.js"></script>
+
+<!-- Plugins -->
+<script src="js/libs/jquery.dataTables.min.js"></script>
+<script src="js/libs/jquery.datepick/jquery.datepick.min.js"></script>
+<script src="js/libs/jquery.datepick/jquery.datepick-de.js"></script>
+
+<script src="js/libs/jquery.cycle2.min.js"></script>
+<script src="js/libs/jquery.cycle2.carousel.min.js"></script>
+<script src="js/libs/fancy/jquery.fancybox.pack.js"></script>
+
+
+<script src="js/libs/amchart/amcharts.js"></script>
+<script src="js/libs/amchart/serial.js"></script>
+
+<script src="js/libs/fakeLoader.min.js"></script>
+
+<script src="js/scripts.js?v=1484149337"></script>
+<script src="js/ownscripts.js?v=1484149337"></script>
+
+
+
+
+
+</body>
+</html>
+

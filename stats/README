@@ -1,0 +1,13 @@
+=== Parse nginx logs ===
+
+Parse script uses these repositories:
+- https://github.com/maxmind/GeoIP2-php
+	(local folder: /var/www/html/stats-nginx/GeoIP2-php)
+- https://github.com/matomo-org/device-detector
+	(local folder: /var/www/html/stats-nginx/device-detector)
+- https://github.com/mustangostang/spyc
+	(local folder: /var/www/html/stats-nginx/spyc)
+
+- Geoip data file download:
+https://dev.maxmind.com/geoip/geoip2/geolite2/
+(https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz)

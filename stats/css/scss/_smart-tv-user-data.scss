@@ -1,0 +1,14 @@
+.smart-user {
+  .adv-text {
+    width: 250px;
+  }
+  ul.grid li {
+    cursor: pointer;
+    &.selected {
+
+      @include background-image(linear-gradient(to bottom right, #f5f5f5, #888));
+
+      //background: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#888));
+    }
+  }
+}

@@ -1,0 +1,4 @@
+
+function resizeFrame(ifr) {
+        ifr.style.height = ifr.contentWindow.document.body.scrollHeight + 'px';
+}

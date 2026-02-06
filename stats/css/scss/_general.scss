@@ -1,0 +1,33 @@
+.margin-top {
+  margin-top: 15px;
+}
+
+.margin-bottom {
+  margin-bottom: 15px;
+}
+
+.clearer {
+  clear: both;
+}
+
+.message {
+  margin-bottom: 15px;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: none;
+}
+
+.grid {
+  > li {
+    .info {
+      background-image: url("../images/icons/fugue/information-blue.png");
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      margin-top: 3px;
+    }
+    &.no-data .info {
+      background-image: url("../images/icons/fugue/information-red.png");
+    }
+  }
+}

@@ -1,0 +1,93 @@
+.button.active{
+	/*background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #55ff55, #339933) repeat scroll 0 0;
+	border: 1px solid light-green;*/
+	background-image: url(../images/icons/fugue/status.png);
+    background-repeat: no-repeat !important;
+    background-position: right center !important;
+    background-size: 2em auto !important;
+    /*background-image: url("../images/icons/fugue/control.png");
+    background-repeat: no-repeat;
+    background-position: right-center;*/
+}
+
+.button.triggerset{
+	background-image: url(../images/icons/fugue/status-busy.png);
+    background-repeat: no-repeat !important;
+    background-position: right center !important;
+    background-size: 2em auto !important;
+}
+.button.notrigger{
+	background-image: url(../images/icons/fugue/status-offline.png);
+    background-repeat: no-repeat !important;
+    background-position: right center !important;
+    background-size: 2em auto !important;
+}
+
+.eventmanager_loader_hid{
+	display: none;
+	visibility: hidden;
+}
+
+div#chartdiv tr:nth-child(2n-1) {
+	background-color:#eee;
+}
+
+div#chartdiv td {
+	padding:4px !important;
+}
+
+div#chartexplain tr:nth-child(2n-1) {
+	background-color:#eee;
+}
+
+div#chartexplain td {
+	padding:4px !important;
+}
+
+.iv-container {
+	display: inline-block;
+	margin: 0 auto;
+	vertical-align:middle;
+}
+
+#triggersettings{
+	position: absolute;
+	background: #D4D8DB;
+	z-index:1000000;
+	top: 25%;
+}
+
+#explainbubble{
+	/*position:absolute;*/
+	/*background: #ffffcc;*/
+	left:10%;
+	background: #D4D8DB;
+	/*background: rgba(255, 255, 255, 0.2) none repeat scroll 0 0;*/
+	/*top:0px;
+	left:0px;
+	background-color:#bfbfbf;
+	padding: 1px;
+	border:1px solid;
+	z-index:100;*/
+}
+/*
+nav>ul li:not(.current).eventmanagergoogle a,nav>ul li.eventmanagergoogle a{background-position:8px 12px;background-image:url('../images/icons/google_icon.png?1445964184')}
+nav>ul li:not(.current).eventmanagergoogle{background-image:url('../images/icons/google_icon_hover.png?1445964184');background-position:8px 12px}
+*/
+span.detailloading{
+	background-image: url(../images/mask-loader.gif);
+}
+
+.triggerloader{
+	background-image: url(../images/mask-loader.gif) !important;
+    background-repeat: no-repeat !important;
+    background-position: right center !important;
+    background-size: 2em auto !important;
+}
+
+#explainbubble{
+	z-index:1000000;
+}
+#fancyClose{
+	right: -65px;
+}

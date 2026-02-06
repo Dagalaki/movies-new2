@@ -1,0 +1,365 @@
+.consentParent {
+    width: 1280px;
+    height: 720px;
+    top: 0px;
+    left: 0px;
+/*    background-color: #0000009e;*/
+    z-index: 1;
+}
+.consentContainer, .consentSettingsContainer {
+    width: 991px;
+    height: 634px;
+    left: 144px;
+    top: 43px;
+    background-color: #0D1118;/*#262C38;*/
+}
+.consentContainer .consentTextContainer {
+    top: 66px;
+    left: 52px;
+    width: 824px;
+    height: 476px;
+}
+.consentContainer .consentTextContainer .text {
+    color: white;
+}
+.consentContainer .consentTextContainer .overlay.top {
+    top: 0;
+    background-image: url("../img/cmp_overlay_top.png");
+}
+.consentContainer .consentTextContainer .overlay.bottom {
+    bottom: 0;
+    background-image: url("../img/cmp_overlay_bottom.png");
+}
+.consentContainer .consentTextContainer .overlay {
+    left: 0;
+    width: 858px;
+    height: 60px;
+    z-index: 1;
+}
+
+.consentContainer div.headline, .consentSettingsContainer div.headline{
+    width: 887px;
+    height: 32px;
+    left: 52px;
+    top: 40px;
+    font-size: 20px;
+    line-height: 32px;
+    color: white;
+}
+
+.consentSettingsContainer div.scroll.up {
+    top: 165px;
+}
+.consentSettingsContainer div.scroll.down {
+    bottom: 26px;
+}
+.consentSettingsContainer div.scroll .icon {
+    top: 16px;
+    left: 11px;
+    width: 20px;
+    height: 14px;
+    background-image: url("../img/icons.png");
+}
+.consentSettingsContainer div.scroll.up .icon{
+    background-position: -126px -536px;
+}
+.consentSettingsContainer div.scroll.down .icon{
+    bottom: 18px;
+    background-position: -100.5px -536px;
+}
+.consentSettingsContainer div.scroll {
+    display:none;
+    left: 7px;
+    width: 40px;
+    height: 40px;  
+}
+.consentSettingsContainer.text div.scroll {
+    display:block;
+}
+.consentSettingsContainer div.scroll.active div.bg{
+    opacity: 1;
+}
+.consentSettingsContainer div.scroll div.bg{
+    width: 40px;
+    height: 40px;
+    background-color: #e8e8e8;
+    border-radius: 20px;
+    opacity: 0.2;
+}
+.consentParent div.buttons {
+    width: 600px;
+    height: 50px;
+    left: 128px;
+    top: 554px;
+}
+.consentParent div.buttons div.button {
+    width: 290px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+    color: #25292E;
+    background-color: white;
+}
+.consentParent div.buttons.focus div.button.focus{
+    background-color: #206DC5;
+    color: white;
+}
+.consentParent div.buttons div.button.left {
+    left: 0;
+    margin-right: 10px;
+}
+.consentParent div.buttons div.button.right {
+    right: 0;
+    margin-left: 10px;
+}
+
+.consentSettingsContainer div.container {
+    top: 160px;
+    left: 52px;
+    width: 720px;
+    height: 394px;
+}
+
+.consentSettingsContainer div.container.focus.bottom div.button.option.top{
+    top: -23px;
+}
+.consentSettingsContainer div.container div.button.option.top{
+    top: 32px;
+}
+.consentSettingsContainer div.container.focus.last div.button.option.top{
+    top: -55px;
+}
+
+.consentSettingsContainer div.container.focus.top div.button.option.middle{
+    top: 274px;
+}
+.consentSettingsContainer div.container.focus.bottom div.button.option.middle{
+    top: 65px;
+}
+.consentSettingsContainer div.container div.button.option.middle{
+    top: 120px;
+}
+.consentSettingsContainer div.container.focus.last div.button.option.middle{
+    top: 32px;
+}
+
+.consentSettingsContainer div.container.focus.top div.button.option.bottom{
+    top: 362px;
+}
+.consentSettingsContainer div.container.focus.middle div.button.option.bottom{
+    top: 363px;
+}
+.consentSettingsContainer div.container.focus.bottom div.button.option.bottom{
+    top: 153px;
+}
+.consentSettingsContainer div.container div.button.option.bottom{
+    top: 208px;
+}
+.consentSettingsContainer div.container.focus.last div.button.option.bottom{
+    top: 120px;
+}
+
+.consentSettingsContainer div.container.focus.top div.button.option.last{
+    top: 362px;
+}
+.consentSettingsContainer div.container.focus.middle div.button.option.last{
+    top: 363px;
+}
+.consentSettingsContainer div.container.focus.bottom div.button.option.last{
+    top: 390px;
+}
+.consentSettingsContainer div.container.focus.last div.button.option.last{
+    top: 155px;
+}
+.consentSettingsContainer div.container div.button.option.last{
+    top: 296px;
+}
+
+.consentSettingsContainer div.container div.button.option{
+    left: 22px;
+    width: 700px;
+    height: 78px;
+    margin: 0;
+    padding: 0;
+    background-color: #25292E !important;
+    color: #ffffff;
+    background-color:#25292e;
+}
+.consentSettingsContainer div.container.focus div.button.option.focus .title {
+    top: 21px;
+    left: 22px;
+}
+.consentSettingsContainer div.container div.button.option .title{
+    top: 23px;
+    left: 39px;
+    width: 428px;
+    height: 32px;
+    font-size: 20px;
+    line-height: 32px;
+    color: #FFFFFF; 
+    text-align: left;
+}
+.consentSettingsContainer div.container.focus div.button.option.focus .icon {
+    left: 818px;
+    top: 89px;
+}
+.consentSettingsContainer div.container div.button.option .icon {
+    right: 50px;
+    top: 28px;
+    width: 31px;
+    height: 23px;
+    background-image: url("../img/icons.png");
+    background-position: -170px -435px;
+}
+.consentSettingsContainer div.container.focus div.button.option.focus .toggle {
+    top: 105px;
+    right: 50px;
+}
+.consentSettingsContainer div.container div.button.option .toggle {
+    top: 23px;
+    right: 50px;
+    width: 64px;
+    height: 32px;
+    background-image: url("../img/icons.png");
+    background-position: -100px -435px;
+}
+.consentSettingsContainer div.container div.button.option.sel .toggle {
+    background-position: -170px -245px;
+}
+.consentSettingsContainer .subline {
+    width: 938px;
+    height: 56px;
+    left: 52px;
+    top: 104px;
+    font-size: 18px;
+    line-height: 28px;
+    color: white;
+}
+.consentSettingsContainer div.container.focus div.button.option.focus .txt {
+    display: block;
+}
+.consentSettingsContainer div.container div.button.option .txt {
+    top: 66px;
+    left: 22px;
+    width: 580px;
+    height: 140px;
+    font-size: 16px;
+    line-height: 24px;
+    color: white;
+    display: none;
+}
+.consentSettingsContainer div.container.focus div.button.option.focus {
+    left: 0px;
+    width: 720px;
+    height: 229px;
+    border-style: solid;
+    border-width: 0px 0px 4px 0px;
+    border-color: #206DC5;
+    box-shadow: 0 0 10px 1px #111;
+}
+
+.consent-menu {
+    top: 125px;
+    left: 780px;
+    width: 200px;
+    height: 486px;
+    border: solid 4px transparent;
+    box-sizing: border-box;
+}
+.consent-menu.focused {
+    /*border: solid 4px #FA7D19;*/
+}
+.consent-menu .option {
+    width: 180px;
+    height: 75px;
+    position: relative;
+    left: 10px;
+    margin-top: 30px;
+    border-bottom: solid 4px transparent;
+        background-color: #25292e;
+    padding: 5px;
+    text-align: center;
+}
+
+.consent-menu .option.active{
+    border-bottom:solid 4px white;
+}
+
+.consent-menu .option .side-icon-label{
+    color: #eeeeee;
+    position: relative;
+    top: 13px;
+    font-size:18px;
+}
+.consent-menu .option.active .side-icon-label{
+   /*color:#FA7D19;*/
+   color:white;
+   
+}
+.consent-menu.focused .option.focused{
+    border-bottom: solid 4px #FA7D19;
+}
+
+.consentSettingsContainer div.info-container, .consentSettingsContainer div.privacy-container {
+    top: 160px;
+    left: 52px;
+    width: 720px;
+    height: 455px;
+    background-color: #25292E;
+    color: white;
+    padding: 15px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: solid 4px transparent;
+    display:none;
+    
+}
+
+.consentSettingsContainer div.privacy-container .floater{
+    width:90%;
+}
+
+.consentSettingsContainer div.info-container .floater, .consentSettingsContainer div.privacy-container .floater {
+ color: white;
+ font-size: 18px;
+}
+.consentSettingsContainer div.info-container.focused, .consentSettingsContainer div.privacy-container.focused {
+    /*border: solid 4px #fa7d19;*/
+    padding: 10px;
+    box-shadow: 5px 10px 18px #464444;
+}
+.floater p {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+.floater ol {
+    margin: 0 3rem 3rem;
+}
+.floater .tablewrap {
+    line-height: 1.5;
+}
+
+.floater .tablewrap table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.floater .tablewrap table tr {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 18px;
+    font-family: inherit;
+    vertical-align: baseline;
+}
+div.tablewrap + ol {
+    margin-top: 22rem;
+}
+div.tablewrap + p {
+    margin-top: 15rem;
+}

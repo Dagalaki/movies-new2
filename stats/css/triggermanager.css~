@@ -1,0 +1,82 @@
+.button.active{
+	background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #009900, #dfdfdf) repeat scroll 0 0;
+}
+
+ 
+#showtriggerdiv tr > td:nth-child(5) {
+	display: none;
+}
+
+#showtriggerdiv table{
+	table-layout: fixed;
+}
+
+#showtriggerdiv table td{
+	overflow: hidden;
+}
+
+#showtriggerdiv .changed td,#showtriggerdiv .changedold td{
+	background: #ffdc00 none repeat scroll 0 0;
+}
+
+#showtriggerdiv .changed:nth-child(2n) td,#showtriggerdiv .changedold:nth-child(2n) td{
+	background: #f0d000 none repeat scroll 0 0;
+}
+
+#showtriggerdiv .old td,#showtriggerdiv .new td{
+	background: #f2f2f2 none repeat scroll 0 0;
+}
+
+#showtriggerdiv .old:nth-child(2n) td,#showtriggerdiv .new:nth-child(2n) td{
+	background: #e6e6e6 none repeat scroll 0 0;
+}
+
+#showtriggerdiv .deleted td{
+	background: #ff4136 none repeat scroll 0 0;
+}
+
+#showtriggerdiv .deleted:nth-child(2n) td{
+	background: #f03630 none repeat scroll 0 0;
+}
+
+#showtriggerdiv .paused td{
+	background: #add8e6 none repeat scroll 0 0;
+}
+
+#showtriggerdiv .paused:nth-child(2n) td{
+	background: #63b5cf none repeat scroll 0 0;
+}
+/* HOVEREINSTELLUNGEN*/
+#showtriggerdiv .changed:hover td,#showtriggerdiv .changedold:hover td,
+#showtriggerdiv .old:hover td,#showtriggerdiv .new:hover td,
+#showtriggerdiv .deleted:hover td, #showtriggerdiv .paused:hover td
+{
+	background: #d1e5ef none repeat scroll 0 0;
+}
+
+.hoverhelp
+{
+	position: relative;
+}
+
+.hoverhelp span
+{
+	background: none repeat scroll 0 0 #F8F8F8;
+	border: 5px solid #dfdfdf;
+	color: #717171;
+	font-size: 12px;
+	height:20px;
+	line-height: 20px;
+	top:0;
+	left:30px;
+	margin: 0 auto;
+	position: relative;
+	text-align: center;
+	display: none;
+	padding: 0 5px;
+	
+}
+.hoverhelp:hover span
+{
+	display: block;
+}

@@ -1,0 +1,11 @@
+
+
+$default-font-size:12px;
+
+@function em($target, $context: $default-font-size) {
+  @return ($target / $context) * 1rem;
+}
+
+@function rem($target, $context: $default-font-size) {
+  @return ($target / $context) * 1rem;
+}

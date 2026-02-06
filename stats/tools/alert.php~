@@ -1,0 +1,8 @@
+<?php
+
+$to = urldecode($_GET['to']);
+$pass = urldecode($_GET['pass']);
+$sub = urldecode($_GET['sub']);
+$msg = urldecode($_GET['msg']);
+
+if (strlen($to) > 4 && strlen($sub) > 2 && strlen($msg) > 4 && $pass == 'dio-43!'

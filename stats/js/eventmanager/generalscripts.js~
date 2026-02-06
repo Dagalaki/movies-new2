@@ -1,0 +1,1379 @@
+/*var windowOnload = window.onload || function () { alert("Test"); };
+window.onload = function() { windowOnload(); };*/
+
+window.onload = function() {
+	
+	if(document.title.indexOf("Facebook") !== -1) {
+		getFacebookInfo.open("get", "/loadFacebook.php?getinfo=true", true);
+		getFacebookInfo.send();
+	} else {
+		fillGoogleData();
+		showdetailclickgoogle2();
+	}
+	//document.getElementById("loader").style.display = "none";
+	//document.getElementById("explainbubble").onmouseout = function () {hideBubbleExp();};
+	
+	document.getElementById('explainbubble').addEventListener('mouseout',hideBubbleExp,true);
+	document.getElementById("tableloader").className = "";
+	document.getElementById("chartdiv").style.display = "none";
+	document.getElementById("overviewdiv").style.display = "none";
+	
+	for(var motive in motivesObj) {
+		motives[motive] = motivesObj[motive]["ac_motiv"];
+	}
+	for(var motive in userMotivesObj) {
+		userMotives[motive] = userMotivesObj[motive]["ac_motiv"];
+	}
+	
+	for(var fingerprint in fingerprintsObj) {
+		var tempArray = new Array();
+		tempArray["actionId"] = fingerprintsObj[fingerprint]["action_id"];
+		tempArray["campaignId"] = fingerprintsObj[fingerprint]["campaign_id"];
+		tempArray["motiv"] = fingerprintsObj[fingerprint]["motiv"];
+		tempArray["timespan"] = fingerprintsObj[fingerprint]["timespan"];
+		tempArray["triggeraction"] = fingerprintsObj[fingerprint]["triggeraction"];
+		tempArray["status"] = fingerprintsObj[fingerprint]["is_active"];
+		fingerprints[fingerprint] = tempArray;
+		fingerprinttest[fingerprintsObj[fingerprint]["campaign_id"]] = tempArray;
+	}
+}
+
+function clearFingerprints() {
+	var sfp = document.getElementById("showfingerprints");
+	while (sfp.firstChild) {
+		sfp.removeChild(sfp.firstChild);
+	}
+}
+/**
+  * Schliesst das übergelagerte Fenster.
+  */
+function closeFingerprints() {
+	//document.getElementsByClassName("fancybox-overlay")[0].style.display = "none";
+	document.getElementById("owfp").style.display = "none";
+}
+/**
+  * Baut anhand der Googledaten über die Kampagnen eine Tabelle auf, in der CampaignName und CampaignID gelistet sind. 
+  * 
+  * @param responseText JSON-String, welcher die Googledaten enthält.
+  */
+function buildMotiveSettings() {
+	clearFingerprints();
+	var sfp = document.getElementById("showfingerprints");
+	
+	var tsForm = document.createElement("form");
+	tsForm.className = "block-content form";
+	var headLine = document.createElement("h1");
+	var headLineText = document.createTextNode("Motiveinstellungen");
+	headLine.appendChild(headLineText);
+	var tsFieldset = document.createElement("fieldset");
+	tsFieldset.className = "grey-bg";
+	var tsLegend = document.createElement("legend");
+	tsLegend.appendChild(headLineText);
+	
+	var divBoxes = document.createElement("div");
+	divBoxes.className = "margin-bottom";
+	var pMotiv = document.createElement("p");
+	var pFingerprints = document.createElement("p");
+	pFingerprints.className = "colx2-left";
+
+	var lbMotiv = document.createElement("label");
+	lbMotiv.htmlFor = "select-usermotiv";
+	lbMotiv.innerHTML = "Motiv";
+	var seMotiv = document.createElement("select");
+	seMotiv.style.width = "100%";
+	seMotiv.id = "select-usermotiv";
+	
+	arrayToOptions(seMotiv, userMotives, "0");
+	
+	var divDown = document.createElement("div");
+	divDown.className = "columns";
+	
+	var lbFingerprints = document.createElement("label");
+	lbFingerprints.htmlFor = "select-fingerprints";
+	lbFingerprints.innerHTML = "Fingerprints";
+	var seFingerprints = document.createElement("select");
+	seFingerprints.style.width = "100%";
+	//seTime.type = "text";
+	
+	arrayToOptions(seFingerprints, motives, "0");
+	//var newTime = "10";
+	//var isOn = true;
+	//if (fingerprinttest[triggerParent.id] != null) {
+	//	newTime = fingerprinttest[triggerParent.id]["timespan"];
+	//	isOn = fingerprinttest[triggerParent.id]["triggeraction"] == "status_on";
+	//}
+	//seTime.value = newTime;
+	seFingerprints.id = "select-fingerprints";
+	
+	var lbTriggerAction = document.createElement("label");
+	lbTriggerAction.htmlFor = "select-ta";
+	lbTriggerAction.innerHTML = "Triggeraction";
+	var seTriggerAction = document.createElement("select");
+	seTriggerAction.style.width = "100%";
+	seTriggerAction.id = "select-ta";
+	var optTA1 = document.createElement("option");
+	var optTA1Text = document.createTextNode("Starte Kampagne");
+	optTA1.appendChild(optTA1Text);
+	optTA1.value = "status_on";
+	optTA1.selected = isOn;
+	var optTA2 = document.createElement("option");
+	var optTA2Text = document.createTextNode("Stoppe Kampagne");
+	optTA2.appendChild(optTA2Text);
+	optTA2.value = "status_off";
+	optTA2.selected = !isOn;
+	seTriggerAction.appendChild(optTA1);
+	seTriggerAction.appendChild(optTA2);
+	
+	pMotiv.appendChild(lbMotiv);
+	pMotiv.appendChild(seMotiv);
+	divBoxes.appendChild(pMotiv);
+	
+	pFingerprints.appendChild(lbFingerprints);
+	pFingerprints.appendChild(seFingerprints);
+	divDown.appendChild(pFingerprints);
+	
+	//pTriggerAction.appendChild(lbTriggerAction);
+	//pTriggerAction.appendChild(seTriggerAction);
+	//divDown.appendChild(pTriggerAction);
+	
+	divBoxes.appendChild(divDown);
+	
+	var divButtons = document.createElement("div");
+	divButtons.className = "columns";
+	
+	var buAbort = document.createElement("input");
+	buAbort.value = "Abbrechen";
+	buAbort.onclick = function() {closeFancybox();clearFancybox();};
+	buAbort.type = "button";
+	buAbort.className = "button colx3-left";
+	buAbort.id = "buAbort";
+	buAbort.name = "buAbort";
+	
+	var buSave = document.createElement("input");
+	buSave.value = "Speichern";
+	//buSave.onclick = function() {actualizeFingerprints(triggerParent.id, false, isGoogle);};
+	buSave.type = "button";
+	buSave.title = "Speichert den Trigger aber aktiviert ihn nicht.";
+	buSave.className = "button colx3-center";
+	buSave.id = "buSave";
+	buSave.name = "buSave";
+	
+	var buSaveUse = document.createElement("input");
+	buSaveUse.value = "Speichern & Ausführen";
+	//buSaveUse.onclick = function() {actualizeFingerprints(triggerParent.id, true, isGoogle);};
+	buSaveUse.type = "button";
+	buSaveUse.title = "Speichert den Trigger und aktiviert ihn.";
+	buSaveUse.className = "button colx3-right";
+	buSaveUse.id = "buSaveUse";
+	buSaveUse.name = "buSaveUse";
+	
+	divButtons.appendChild(buAbort);
+	divButtons.appendChild(buSave);
+	divButtons.appendChild(buSaveUse);
+	
+	tsFieldset.appendChild(divBoxes);
+	tsFieldset.appendChild(divButtons);
+	tsForm.appendChild(tsLegend);
+	tsForm.appendChild(tsFieldset);
+	sfp.appendChild(tsForm);
+	
+	
+	document.getElementById("owfp").style.display = "block";
+	/*if (responseText != "" && responseText != "[]") {
+		var campaignArray = JSON.parse(responseText);
+		var inputField = '<input type="text" id="campaignsearchfield" class="float-right" onChange="searchCampaigns(this)" onpropertychange="searchCampaigns(this)" oninput="searchCampaigns(this)">';
+		var showText = '<table class="table" style="width:521px;"><thead><tr><td>Name' + inputField + '</td><td>ID</td></tr></thead><tbody>';
+		for (var i = 0; i < campaignArray.length; i++) {
+			onclicktext = 'chooseCampaign(this)';
+			showText += '<tr onclick="' + onclicktext + '"><td>' + campaignArray[i]["name"] + '</td><td>' + campaignArray[i]["id"] + '</td></tr>';
+		}
+		showText += '</tbody></table>';
+		showText += '<div id="nocampaigns" style="display:none;">Keine Kampagnen gefunden</div>';
+		document.getElementById("showhintsdiv").innerHTML = showText;
+	} else {
+		document.getElementById("showhintsdiv").innerHTML = "Keine Kampagnen verfügbar";
+	}
+	document.getElementsByClassName("fancybox-overlay")[0].style.display = "block";
+	showSmallLoader(null,false);*/
+}
+
+
+/**
+  * Prüft auf die derzeitige Seite und ruft die entsprechende Funktion zum Neuladen der Tabelle auf.
+  */
+function reloadTable() {
+	if(document.title.indexOf("Facebook") !== -1) {
+		fillCampaignTable();
+	} else {
+		fillCampaignTableGoogle();
+	}
+}
+var fingerprinttest = new Array();
+
+var chosenStartDateGlobal = "";
+var chosenEndDateGlobal = "";
+var chosenNameGlobal = "";
+var chosenIDGlobal = "";
+var chosenStateGlobal = "";
+
+
+/**
+  * Geht von einem eindimensionalen Array aus.
+  * Fügt dem Elternelement(tag: select) eine variable Anzahl von option-Elementen an.
+  * Sucht an der Kampagnen-ID nach Übereinstimmung mit den Motiven. Ist eine Übereinstimmung gefunden, wird die entsprechende option selected.
+  * @param parentelement Elternelement (select)
+  * @param optionArray Array, welches in option-Elemente umgeschrieben wird.
+  * @param campaignId Kampagnen-ID
+  */
+function arrayToOptions(parentelement, optionArray, campaignId) {
+	for (var optionKey in optionArray) {
+		var tempElement = document.createElement("option");
+		tempElement.value = optionArray[optionKey];
+		tempElement.innerHTML = optionArray[optionKey];
+		if (fingerprinttest[campaignId] != null && fingerprinttest[campaignId]["motiv"] == optionArray[optionKey]) {
+			tempElement.selected = true;
+		}
+		parentelement.appendChild(tempElement);
+	}
+}
+
+/**
+  * Aktualisiert das Fingerprint-Array an der Stelle der Kampagnen-ID mit den eingegebenen Daten.
+  * Ist die Stelle leer, so wird sie angelegt.
+  * @param campaignId Kampagnen-ID
+  * @param activate Boolean, der bestimmt, ob der Trigger aktiv oder inaktiv sein soll.
+  */
+function actualizeFingerprints(campaignId, activate, isGoogle) {
+	var chosenMotive = document.getElementById("select-motiv");
+	var chosenTime = document.getElementById("input-time");
+	var chosenTA = document.getElementById("select-ta");
+	
+	var previous = "0";
+	if (chosenTime.value == "") {
+		alert("Keinen Zeitraum ausgewählt");
+		return false;
+	}
+	
+	var isReady = confirm("Wirklich speichern?");
+	if (isReady) {
+		if (fingerprinttest[campaignId] != null) {
+			fingerprinttest[campaignId]["motiv"] = chosenMotive.options[chosenMotive.selectedIndex].value;
+			fingerprinttest[campaignId]["triggeraction"] = chosenTA.value;
+			fingerprinttest[campaignId]["timespan"] = chosenTime.value;
+		} else {
+			fingerprinttest[campaignId] = new Array();
+			fingerprinttest[campaignId]["motiv"] = chosenMotive.options[chosenMotive.selectedIndex].value;
+			fingerprinttest[campaignId]["triggeraction"] = chosenTA.value;
+			fingerprinttest[campaignId]["timespan"] = chosenTime.value;
+			fingerprinttest[campaignId]["campaignId"] = campaignId;
+			fingerprinttest[campaignId]["actionId"] = 0;
+		}
+		saveToJSON(campaignId, activate, isGoogle);
+	}
+}
+
+/**
+  * Sendet das Fingerprint-Array an Stelle der Kampagnen-ID an den Server zum Speichern.
+  * Wandelt es vor dem Senden in ein JSON um.
+  * @params campaignId Kampagnen-ID
+  * @params activate Boolean, der bestimmt, ob der Trigger aktiv oder inaktiv sein soll.
+  */
+function saveToJSON(campaignId, activate, isGoogle) {
+	var jsonArray = new Array();
+	jsonArray[0] = 0;
+	jsonArray[1] = fingerprinttest[campaignId]["motiv"];
+	
+	jsonCampaignArray = new Array();
+	jsonCampaignArray[0] = campaignId;
+	jsonCampaignArray[1] = "status";
+	jsonCampaignArray[2] = fingerprinttest[campaignId]["triggeraction"];
+	jsonCampaignArray[3] = fingerprinttest[campaignId]["timespan"];
+	jsonCampaignArray[4] = fingerprinttest[campaignId]["actionId"];
+	jsonCampaignArray[5] = activate ? "1" : "0";
+	
+	jsonArray[2] = jsonCampaignArray;
+	var stringJSON = JSON.stringify(jsonArray);
+	console.log(stringJSON);
+	stringJSON = encodeURI(stringJSON);
+	var store = document.getElementById("smallexplainbubble");
+	store.innerHTML = campaignId;
+	var sourcetext = isGoogle ? "googleeventmanager" : "eventmanager";
+	sendJSON.open("get", "/" + sourcetext + "/?save=true&json=" + stringJSON, true);
+	//sendJSON.open("get", "/googleeventmanager/?save=true&json=" + stringJSON, true);
+	sendJSON.send();
+}
+
+var sendJSON = new XMLHttpRequest();
+
+/**
+  * Sollte eine Antwort eingehen, so wird die ID aktualisiert und die Ansicht neu geladen.
+  */
+sendJSON.onload = function() {
+	try {
+		// TODO: Aktualisierung der Kampagnenansicht
+		var store = document.getElementById("smallexplainbubble");
+		var answer = this.responseText;
+		console.log(JSON.parse(answer)[0]);
+		fingerprinttest[store.innerHTML]["actionId"] = JSON.parse(answer)[0];
+		document.getElementById(store.innerHTML).getElementsByClassName("menu-opener")[0].className = document.getElementById(store.innerHTML).getElementsByClassName("menu-opener")[0].className.replace(" triggerloader", "");
+		reloadTable();
+		closeFancybox();
+	} catch (err) {
+		alert("Speichervorgang abgebrochen " + err);
+	}
+};
+
+/**
+  * Schliesst das übergelagerte Fenster.
+  */
+function closeFancybox() {
+	//document.getElementsByClassName("fancybox-overlay")[0].style.display = "none";
+	document.getElementById("overwindow").style.display = "none";
+}
+
+/**
+  * Sucht rekursiv die jeweiligen Elternelement durch, bis das übergebene Tag gefunden wurde.
+  * Läuft bis zum Body-Tag durch, wenn kein Element mit dem übergebenen Tag gefunden wurde.
+  * @params triggerelement das Element, dessen Parent gefunden werden soll.
+  * @params parentTag der Tag, nach dem gesucht wird.
+  * @return Das Elternelement oder false.
+  */
+function findParentByTag(triggerelement, parentTag) {
+	var isFound = false;
+	var endElement = document.getElementsByTagName("body")[0];
+	var tempElement = triggerelement;
+	while (!isFound) {
+		tempElement = tempElement.parentNode;
+		if (tempElement.tagName == parentTag.toUpperCase()) {
+			isFound = true;
+			return tempElement;
+		}
+		if (tempElement.tagName == endElement.tagName) {
+			break;
+		}
+	}
+	return false;
+}
+
+/**
+  * Aktualisiert das Fingerprint-Array an der Stelle der Kampagnen-ID.
+  * Ist noch kein Triggersetting vorhanden werden die Triggersettings aufgerufen.
+  * Ist noch kein Triggersetting vorhanden, aber der übergebene Boolean 'false', geschieht nichts.
+  * Ist der übergebene Boolean auf demselben Wert wie der Status im Fingerprint-Array, geschieht nichts.
+  * @params triggerelement Das getriggerte Element, dessen Parent die Kampagnen-ID kennt.
+  * @params isOn Boolean, der besagt, ob der Trigger aktiv oder inaktiv sein soll.
+  * @return Boolean, keine Bedeutung.
+  */
+function actualizeCampaign(triggerelement, isOn, isGoogle) {
+	var triggerParent = findParentByTag(triggerelement, "tr");
+
+	if (fingerprinttest[triggerParent.id] == null) {
+		if (isOn) {
+			buildTriggerSettings(triggerelement, isGoogle);
+		} else {
+			return false;
+		}
+	}
+	console.log(triggerParent.id + " " + fingerprinttest[triggerParent.id]["status"]);
+	if (fingerprinttest[triggerParent.id]["status"] == (isOn ? "1" : "0")) {
+		return false;
+	}
+	triggerParent.getElementsByClassName("menu-opener")[0].className += " triggerloader";
+	fingerprinttest[triggerParent.id]["status"] = isOn ? "1" : "0";
+	saveToJSON(triggerParent.id, isOn, isGoogle);
+	return true;
+}
+
+/**
+  * Baut das Fenster für die Triggersettings zusammen.
+  * Nutzt die Daten aus dem Fingerprint-Array an der Stelle der Kampagnen-ID.
+  * @params triggerelement Das getriggerte Element, dessen Parent die Kampagnen-ID kennt.
+  */
+function buildTriggerSettings(triggerelement, isGoogle) {
+	clearFancybox();
+	var triggerParent = findParentByTag(triggerelement, "tr");
+	
+	var tsCon = document.getElementById("triggersettings");
+	var tsForm = document.createElement("form");
+	tsForm.className = "block-content form";
+	var headLine = document.createElement("h1");
+	var headLineText = document.createTextNode("Triggereinstellungen");
+	headLine.appendChild(headLineText);
+	var tsFieldset = document.createElement("fieldset");
+	tsFieldset.className = "grey-bg";
+	var tsLegend = document.createElement("legend");
+	tsLegend.appendChild(headLineText);
+	
+	var divBoxes = document.createElement("div");
+	divBoxes.className = "margin-bottom";
+	var pMotiv = document.createElement("p");
+	var pTime = document.createElement("p");
+	pTime.className = "colx2-left";
+	var pTriggerAction = document.createElement("p");
+	pTriggerAction.className = "colx2-right";
+
+	var lbMotiv = document.createElement("label");
+	lbMotiv.htmlFor = "select-motiv";
+	lbMotiv.innerHTML = "Motiv";
+	var seMotiv = document.createElement("select");
+	seMotiv.style.width = "100%";
+	seMotiv.id = "select-motiv";
+	
+	arrayToOptions(seMotiv, motives, triggerParent.id);
+	
+	var divDown = document.createElement("div");
+	divDown.className = "columns";
+	
+	var lbTime = document.createElement("label");
+	lbTime.htmlFor = "input-time";
+	lbTime.innerHTML = "Zeitraum in Minuten";
+	var seTime = document.createElement("input");
+	seTime.style.width = "100%";
+	seTime.type = "text";
+	
+	var newTime = "10";
+	var isOn = true;
+	if (fingerprinttest[triggerParent.id] != null) {
+		newTime = fingerprinttest[triggerParent.id]["timespan"];
+		isOn = fingerprinttest[triggerParent.id]["triggeraction"] == "status_on";
+	}
+	seTime.value = newTime;
+	seTime.id = "input-time";
+	
+	var lbTriggerAction = document.createElement("label");
+	lbTriggerAction.htmlFor = "select-ta";
+	lbTriggerAction.innerHTML = "Triggeraction";
+	var seTriggerAction = document.createElement("select");
+	seTriggerAction.style.width = "100%";
+	seTriggerAction.id = "select-ta";
+	var optTA1 = document.createElement("option");
+	var optTA1Text = document.createTextNode("Starte Kampagne");
+	optTA1.appendChild(optTA1Text);
+	optTA1.value = "status_on";
+	optTA1.selected = isOn;
+	var optTA2 = document.createElement("option");
+	var optTA2Text = document.createTextNode("Stoppe Kampagne");
+	optTA2.appendChild(optTA2Text);
+	optTA2.value = "status_off";
+	optTA2.selected = !isOn;
+	seTriggerAction.appendChild(optTA1);
+	seTriggerAction.appendChild(optTA2);
+	
+	pMotiv.appendChild(lbMotiv);
+	pMotiv.appendChild(seMotiv);
+	divBoxes.appendChild(pMotiv);
+	
+	pTime.appendChild(lbTime);
+	pTime.appendChild(seTime);
+	divDown.appendChild(pTime);
+	
+	pTriggerAction.appendChild(lbTriggerAction);
+	pTriggerAction.appendChild(seTriggerAction);
+	divDown.appendChild(pTriggerAction);
+	
+	divBoxes.appendChild(divDown);
+	
+	var divButtons = document.createElement("div");
+	divButtons.className = "columns";
+	
+	var buAbort = document.createElement("input");
+	buAbort.value = "Abbrechen";
+	buAbort.onclick = function() {closeFancybox();clearFancybox();};
+	buAbort.type = "button";
+	buAbort.className = "button colx3-left";
+	buAbort.id = "buAbort";
+	buAbort.name = "buAbort";
+	
+	var buSave = document.createElement("input");
+	buSave.value = "Speichern";
+	buSave.onclick = function() {actualizeFingerprints(triggerParent.id, false, isGoogle);};
+	buSave.type = "button";
+	buSave.title = "Speichert den Trigger aber aktiviert ihn nicht.";
+	buSave.className = "button colx3-center";
+	buSave.id = "buSave";
+	buSave.name = "buSave";
+	
+	var buSaveUse = document.createElement("input");
+	buSaveUse.value = "Speichern & Ausführen";
+	buSaveUse.onclick = function() {actualizeFingerprints(triggerParent.id, true, isGoogle);};
+	buSaveUse.type = "button";
+	buSaveUse.title = "Speichert den Trigger und aktiviert ihn.";
+	buSaveUse.className = "button colx3-right";
+	buSaveUse.id = "buSaveUse";
+	buSaveUse.name = "buSaveUse";
+	
+	divButtons.appendChild(buAbort);
+	divButtons.appendChild(buSave);
+	divButtons.appendChild(buSaveUse);
+	
+	tsFieldset.appendChild(divBoxes);
+	tsFieldset.appendChild(divButtons);
+	tsForm.appendChild(tsLegend);
+	tsForm.appendChild(tsFieldset);
+	tsCon.appendChild(tsForm);
+	document.getElementById("overwindow").style.display = "block";
+}
+
+function chooseCampaignViewGoogle(triggerelement) {
+	chooseCampaignView(triggerelement, true);
+}
+
+/**
+  * Lädt die Kampagnendaten für die ausgewählte Kampagne nach.
+  * @params triggerelement Element, in dem die Daten gespeichert sind.
+  * @params isGoogle Boolean, der die aktuelle Seite beschreibt.
+  */
+function chooseCampaignView(triggerelement, isGoogle) {
+	chosenIDGlobal = triggerelement.id;
+	chosenNameGlobal = triggerelement.childNodes[2].innerHTML;
+	chosenStateGlobal = triggerelement.childNodes[1].innerHTML;
+	
+	chosenStartDateGlobal = triggerelement.childNodes[4].innerHTML;
+	chosenEndDateGlobal = triggerelement.childNodes[5].innerHTML;
+	
+	if (isGoogle) {
+
+	} else {
+		var time = makeTimePractical(chosenStartDateGlobal) + "___" + makeTimePractical(chosenEndDateGlobal);
+		var action_field_select = "comment,like,link_click,photo_view,post_like,unlike,video_play,video_view,page_engagement,post_engagement";
+		var field_select = "actions{" + action_field_select + "},unique_actions{" + action_field_select + "},total_actions,total_action_value,impressions,social_impressions,social_clicks,unique_impressions";
+		field_select += ",unique_social_impressions,unique_clicks,unique_social_clicks,spend,frequency,deeplink_clicks,website_clicks";		
+		
+		oReq.open("get", "/loadFacebook.php?camp=" + chosenId + "&fields=" + field_select + "&time=" + time, true);
+		oReq.send();
+	}
+}
+
+var campaignDetailData = new Array();
+/**
+  * Leert die Bestandteile der Ansicht von den Triggersettings.
+  */
+function clearFancybox() {
+	var scd = document.getElementById("triggersettings");
+	while (scd.firstChild) {
+		scd.removeChild(scd.firstChild);
+	}
+}
+
+/**
+  * Baut die graphische Komponente für die Spaltensortierung.
+  * @param parentelement Das Element, dem die Sorter hinzugefügt werden sollen.
+  * @param isGoogle Boolean, der die aktuelle Seite definiert.
+  */
+function buildSorter(parentelement, isGoogle) {
+	var linkText = isGoogle ? "/googleeventmanager/#" : "/eventmanager/#";
+	var coso = document.createElement("span");
+	coso.className = "column-sort";
+	var coUp = document.createElement("a");
+	coUp.className = "sort-up";
+	coUp.title = "Sort Up";
+	coUp.href = linkText;
+	var coDown = document.createElement("a");
+	coDown.className = "sort-down";
+	coDown.title = "Sort Down";
+	coDown.href = linkText;
+	coso.appendChild(coUp);
+	coso.appendChild(coDown);
+	parentelement.appendChild(coso);
+}
+
+/**
+  * (deprecated)
+  * Zeigt die Facebookdaten in einer Tabelle. 
+  */
+function showFacebookData(chartDataFacebook) {
+	clearFancybox();
+	var scd = document.getElementById("showcampaigndetails");
+	var scdParent = scd.parentNode;
+	var detailTable = document.createElement("table");
+	
+	var headline = document.createElement("h2");
+	headline.innerHTML = "Facebook - " + chosenNameGlobal;
+	
+	scd
+	
+	detailTable.className = "table sortable no-margin";
+	detailTable.cellspacing = "0";
+	
+	var dth = document.createElement("thead");
+	var dttr = document.createElement("tr");
+	
+	var hname = document.createElement("th");
+	var hnameText = document.createTextNode("Kampagnenname");
+	hname.appendChild(hnameText);
+	var hstate = document.createElement("th");
+	var hcomment = document.createElement("th");
+	hcomment.innerHTML = "";
+	var hlike = document.createElement("th");
+	hlike.innerHTML = "";
+	var hpost = document.createElement("th");
+	var hvid = document.createElement("th");
+	var hdeep = document.createElement("th");
+	var himpr = document.createElement("th");
+	var hspend = document.createElement("th");
+	
+	
+	
+	dttr.appendChild(hstate);
+	dttr.appendChild(hname);
+	dttr.appendChild(himpr);
+	dttr.appendChild(hdeep);
+	dttr.appendChild(hcomment);
+	dth.appendChild(dttr);
+	detailTable.appendChild(dth);
+}
+
+function cleardetail() {
+	var exp = document.getElementById("explainbubble");
+	while (exp.firstChild){
+		exp.removeChild(exp.firstChild);
+	}
+}
+
+function showdetaillater(campaignID) {
+	var exp = document.getElementById("explainbubble");
+	if (exp.style.display == "block") {
+		if (exp.firstChild.className == campaignID) {
+			var tempTR = document.getElementById(campaignID);
+			showdetailloading(tempTR.childNodes[1]);
+		}
+	}
+}
+
+function showdetaillatergoogle() {
+	var exp = document.getElementById("explainbubble");
+	if (exp.style.display == "block") {
+		var tempID = document.getElementById("expidstore");
+		var tempTR = document.getElementById(tempID.className);
+		showdetailloadinggoogle(tempTR.childNodes[1]);
+	}
+}
+
+function showdetailclick(triggerelement) {
+	
+	var adacc = document.getElementById("adaccount");
+	var clientId = adacc.childNodes[adacc.selectedIndex + 1].id;
+	
+	chosenStartDateGlobal = triggerelement.childNodes[4].innerHTML;
+	chosenEndDateGlobal = triggerelement.childNodes[5].innerHTML;
+	
+	for (var i = 0; i < facebookInfo.length; i++) {
+		if (facebookInfo[i]["id"][0] == clientId) {
+			for (var j = 0; j < facebookInfo[i]["campaigns"].length; j++) {
+				if (facebookInfo[i]["campaigns"][j]["id"][0] == triggerelement.id) {
+					chosenStartDateGlobal = facebookInfo[i]["campaigns"][j]["date_start"][0];
+					chosenEndDateGlobal = facebookInfo[i]["campaigns"][j]["date_stop"][0];
+				}
+			}
+		}
+	}
+	
+	var time = chosenStartDateGlobal + "___" + chosenEndDateGlobal;
+	var action_field_select = "comment,like,link_click,photo_view,post_like,unlike,video_play,video_view,page_engagement,post_engagement";
+	var field_select = "actions{" + action_field_select + "},unique_actions{" + action_field_select + "},total_actions,total_action_value,impressions,social_impressions,social_clicks,unique_impressions";
+	field_select += ",unique_social_impressions,unique_clicks,unique_social_clicks,spend,frequency,deeplink_clicks,website_clicks,account_id,campaign_id,campaign_name";
+	if (!isSending) {
+		chosenIDGlobal = triggerelement.id;
+		chosenNameGlobal = triggerelement.childNodes[1].innerHTML;
+		isSending = true;
+		//oReq.open("get", "/loadFacebook.php?camp=" + triggerelement.id + "&fields=" + field_select + "&time=01-01-2001___01-01-2001", true);
+		oReq.open("get", "/loadFacebook.php?camp=" + triggerelement.id + "&fields=" + field_select + "&time=" + time, true);
+		oReq.send();
+		var loading = document.createElement("img");
+		loading.src = "/images/mask-loader.gif";
+		cleardetail();
+		var exp = document.getElementById("explainbubble");
+		var span = document.createElement("span");
+		span.className = triggerelement.id;
+		span.style.display = "none";
+		exp.appendChild(span);
+		exp.appendChild(loading);
+	}
+}
+
+function showkeyworddetailgoogle(triggerelement) {
+	if (!isSendingKeywordGoogle) {
+		var adaccgoogle = document.getElementById("adaccountgoogle");
+		var clientId = adaccgoogle.childNodes[adaccgoogle.selectedIndex + 1].id;
+		isSendingKeywordGoogle = true;
+		oReqKeywordsGoogle.open("get", "/loadGoogle.php?getgooglekeyworddata=" + clientId);
+		oReqKeywordsGoogle.send();
+		var loading = document.createElement("img");
+		loading.src = "/images/mask-loader.gif";
+		cleardetail();
+		var exp = document.getElementById("explainbubble");
+		var span = document.createElement("span");
+		span.className = triggerelement.id;
+		span.id = "expidstore";
+		span.style.display = "none";
+		exp.appendChild(span);
+		exp.appendChild(loading);
+	}
+}
+
+function showdetailclickgoogle2() {
+	if (!isSendingGoogle) {
+		document.getElementById("loader").style.display = "block";
+		document.getElementById("googleDataTable").style.display = "none";
+		var adaccgoogle = document.getElementById("adaccountgoogle");
+		var clientId = adaccgoogle.childNodes[adaccgoogle.selectedIndex + 1].id;
+		isSendingGoogle = true;
+		oReqGoogle.open("get", "/loadGoogle.php?getgooglecampaigndata=" + clientId);
+		oReqGoogle.send();
+	}
+}
+
+function showdetailclickgoogle(triggerelement) {
+	if (!isSendingGoogle) {
+		var adaccgoogle = document.getElementById("adaccountgoogle");
+		var clientId = adaccgoogle.childNodes[adaccgoogle.selectedIndex + 1].id;
+		isSendingGoogle = true;
+		oReqGoogle.open("get", "/loadGoogle.php?getgooglecampaigndata=" + clientId);
+		oReqGoogle.send();
+		var loading = document.createElement("img");
+		loading.src = "/images/mask-loader.gif";
+		cleardetail();
+		var exp = document.getElementById("explainbubble");
+		var span = document.createElement("span");
+		span.className = triggerelement.id;
+		span.id = "expidstore";
+		span.style.display = "none";
+		exp.appendChild(span);
+		exp.appendChild(loading);
+	}
+}
+
+function showdetailloadinggoogle(triggerelement) {
+	cleardetail();
+	isCloseAllowed = true;
+	var adaccgoogle = document.getElementById("adaccountgoogle");
+	var clientId = adaccgoogle.childNodes[adaccgoogle.selectedIndex + 1].id;
+	
+	var exp = document.getElementById("explainbubble");
+	var span = document.createElement("span");
+	span.className = triggerelement.parentNode.id;
+	span.style.display = "none";
+	span.id = "expidstore";
+	exp.appendChild(span);
+	changeBubble(triggerelement);
+	if (googleKeywordsData[clientId] != null) {
+		isCloseAllowed = false;
+		showdetailgoogle(triggerelement, googleKeywordsData[clientId]);
+	} else if (isSendingGoogle) {
+		if (exp.firstChild.className == triggerelement.parentNode.id) {
+			var loading = document.createElement("img");
+			loading.src = "/images/mask-loader.gif";
+			exp.appendChild(loading);
+		} else {
+			var loadingText = document.createElement("span");
+			loadingText.innerHTML= 'Bitte warten<br/>Daten werden für eine andere Kampagne geladen.';
+		}
+	} else {
+		var spanText = document.createElement("span");
+		spanText.innerHTML = 'Zum Laden der Kampagne "' + triggerelement.innerHTML + '" bitte klicken';
+		exp.appendChild(spanText);
+	}
+	repositionBubble(triggerelement);
+}
+
+function showdetailloading(triggerelement) {
+	cleardetail();
+	isCloseAllowed = true;
+	var exp = document.getElementById("explainbubble");
+	var closeDiv = document.createElement("div");
+	closeDiv.id = "explainclose";
+	closeDiv.className = "close-bt";
+	var span = document.createElement("span");
+	span.className = triggerelement.parentNode.id;
+	span.style.display = "none";
+	exp.appendChild(closeDiv);
+	exp.appendChild(span);
+	
+	document.getElementById('explainclose').addEventListener('click',truehideBubble,true);
+	changeBubble(triggerelement);
+	if (Array.isArray(campaignDetailData[triggerelement.parentNode.id])) {
+		isCloseAllowed = false;
+		showdetail(triggerelement, campaignDetailData[triggerelement.parentNode.id]);
+	} else if (isSending) {
+		if (exp.firstChild.className == triggerelement.parentNode.id) {
+			var loading = document.createElement("img");
+			loading.src = "/images/mask-loader.gif";
+			exp.appendChild(loading);
+		} else {
+			var loadingText = document.createElement("span");
+			loadingText.innerHTML= 'Bitte warten<br/>Daten werden für eine andere Kampagne geladen.';
+		}
+	} else {
+		var spanText = document.createElement("span");
+		spanText.innerHTML = 'Zum Laden der Kampagne "' + triggerelement.innerHTML + '" bitte klicken';
+		exp.appendChild(spanText);
+	}
+	repositionBubble(triggerelement);
+}
+
+function addSorter(parentelement, overId) {
+	var overSpan = document.createElement("span");
+	overSpan.className = "column-sort";
+	overSpan.id = overId;
+	var upSpan = document.createElement("span");
+	upSpan.className = "sort-up";
+	upSpan.onclick = function() {sortKeywordTableGoogle(this);};
+	var downSpan = document.createElement("span");
+	downSpan.className = "sort-down";
+	downSpan.onclick = function() {sortKeywordTableGoogle(this);};
+	overSpan.appendChild(upSpan);
+	overSpan.appendChild(downSpan);
+	parentelement.appendChild(overSpan);
+}
+
+function showdetailgoogle(triggerelement, clientArray) {
+	var showLimit = 10;
+	cleardetail();
+	var exp = document.getElementById("explainbubble");
+	var closeDiv = document.createElement("div");
+	closeDiv.id = "explainclose";
+	closeDiv.className = "close-bt";
+	exp.appendChild(closeDiv);
+	document.getElementById('explainclose').addEventListener('click',truehideBubble,true);
+	var campaignArray = new Array();
+	var keywordCounter = 0;
+	for (var keyword in clientArray) {
+		if (clientArray[keyword]["campaignId"] == triggerelement.parentNode.id) {
+			campaignArray[keywordCounter] = clientArray[keyword];
+			keywordCounter++;
+		}
+		if (keywordCounter >= showLimit) {
+			break;
+		}
+	}
+	if (campaignArray != null) {
+		changeBubble(triggerelement);
+		var list = document.createElement("div");
+		list.id = "detailshow";
+		list.className = "result-block";
+		var littleArrow = document.createElement("span");
+		littleArrow.className = "arrow";
+		littleArrow.appendChild(document.createElement("span"));
+		var span = document.createElement("span");
+		span.className = triggerelement.parentNode.id;
+		span.id = "expidstore";
+		span.style.display = "none";
+		var tableLink = document.createElement("table");
+		tableLink.className = "table sortable no-margin";
+		var tHead = document.createElement("thead");
+		var tHeadRow = document.createElement("tr");
+		var tHeadText = document.createElement("th");
+		var tHeadStatus = document.createElement("th");
+		var tHeadMaxCpc = document.createElement("th");
+		var tHeadClicks = document.createElement("th");
+		var tHeadImpressions = document.createElement("th");
+		var tHeadCtr = document.createElement("th");
+		var tHeadAvgCpc = document.createElement("th");
+		var tHeadCost = document.createElement("th");
+		var tHeadAvgPos = document.createElement("th");
+		
+		tHeadText.innerHTML = "Keyword";
+		addSorter(tHeadText,"keyKeyword");
+		
+		tHeadStatus.innerHTML = "Status";
+		addSorter(tHeadStatus,"keyStatus");
+		
+		tHeadMaxCpc.innerHTML = "Max. CPC";
+		addSorter(tHeadMaxCpc,"keyMaxCpc");
+		
+		tHeadClicks.innerHTML = "Klicks";
+		addSorter(tHeadClicks,"keyClicks");
+		
+		tHeadImpressions.innerHTML = "Impressions";
+		addSorter(tHeadImpressions,"keyImpressions");
+		
+		tHeadCtr.innerHTML = "CTR";
+		addSorter(tHeadCtr,"keyCtr");
+		
+		tHeadAvgCpc.innerHTML = "Durchschn. CPC";
+		addSorter(tHeadAvgCpc,"keyAvgCpc");
+		
+		tHeadCost.innerHTML = "Kosten";
+		addSorter(tHeadCost,"keyCost");
+		
+		tHeadAvgPos.innerHTML = "Durchschn. Position";
+		addSorter(tHeadAvgPos,"keyAvgPos");
+		
+		tHeadRow.appendChild(tHeadText);
+		tHeadRow.appendChild(tHeadStatus);
+		tHeadRow.appendChild(tHeadMaxCpc);
+		tHeadRow.appendChild(tHeadClicks);
+		tHeadRow.appendChild(tHeadImpressions);
+		tHeadRow.appendChild(tHeadCtr);
+		tHeadRow.appendChild(tHeadAvgCpc);
+		tHeadRow.appendChild(tHeadCost);
+		tHeadRow.appendChild(tHeadAvgPos);
+		tHead.appendChild(tHeadRow);
+		tableLink.appendChild(tHead);
+		
+		exp.appendChild(span);
+		var tBody = document.createElement("tbody");
+		tBody.id = "googleKeywordTable";
+		var counter = 1;
+		for (var key in campaignArray) {
+			if (key != "campaign_name" && key.indexOf(".") < 0) {
+				showdetaildatagoogle(tBody, campaignArray[key]);
+				if (counter >= showLimit) {
+					break;
+				}
+				counter++;
+			}
+	
+		}
+		tableLink.appendChild(tBody);
+		exp.appendChild(tableLink);
+	} else {
+		var span = document.createElement("span");
+		span.innerHTML = campaignArray;
+		exp.appendChild(span);
+	}
+	showBubble();
+}
+
+function writeSmallBubble(triggerelement) {
+	//console.log(triggerelement.tagName);
+}
+
+function showSmallBubble() {
+	document.getElementById("smallexplainbubble").style.display = "block";
+}
+
+function hideSmallBubble() {
+	document.getElementById("smallexplainbubble").style.display = "none";
+}
+
+function showBubble() {
+	document.getElementById("explainbubble").style.display = "block";
+}
+
+var isCloseAllowed = false;
+
+function hideBubbleExp(event) {
+	var e = event.toElement || event.relatedTarget;
+
+	try {
+	
+		if (e.parentNode == this || e == this || e.parentNode.parentNode == this || e.parentNode.parentNode.parentNode == this || e.parentNode.parentNode.parentNode.parentNode == this || e.parentNode.parentNode.parentNode.parentNode.parentNode == this || e.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode == this) {
+			return;
+		}
+	
+	} catch (err) {
+	}
+	isCloseAllowed = true;
+	hideBubble();
+}
+
+function truehideBubble() {
+	document.getElementById("explainbubble").style.display = "none";
+}
+
+function hideBubble() {
+	if (isCloseAllowed) {
+		document.getElementById("explainbubble").style.display = "none";
+	}
+}
+
+function showdetail(triggerelement, campaignArray) {
+	cleardetail();
+	var exp = document.getElementById("explainbubble");
+	var closeDiv = document.createElement("div");
+	closeDiv.id = "explainclose";
+	closeDiv.className = "close-bt";
+	exp.appendChild(closeDiv);
+	document.getElementById('explainclose').addEventListener('click',truehideBubble,true);
+	
+	if (Array.isArray(campaignArray)) {
+		changeBubble(triggerelement);
+		var list = document.createElement("div");
+		list.id = "detailshow";
+		list.className = "result-block";
+		var littleArrow = document.createElement("span");
+		littleArrow.className = "arrow";
+		littleArrow.appendChild(document.createElement("span"));
+		var span = document.createElement("span");
+		span.className = triggerelement.parentNode.id;
+		span.style.display = "none";
+		var listLink = document.createElement("ul");
+		listLink.className = "small-files-list icon-comment float-left";
+		exp.appendChild(span);
+		var counter = 1;
+		for (var key in campaignArray) {
+			if (key == "like" || key == "comment" || key == "total_actions" || key == "offsite_conversion" || key == "post" || key == "page_engagement" || key == "link_click" || key == "photo_view" || key == "video_view" || key == "social_impressions" || key == "social_clicks") {
+				showdetaildata(listLink, key, campaignArray[key], campaignArray["campaign_name"], false);
+				if (counter % 3 == 0) {
+					exp.appendChild(listLink);
+					listLink = document.createElement("ul");
+					listLink.className = "small-files-list icon-comment float-left";
+				}
+				if (counter == 6) {
+					break;
+				}
+				counter++;
+			}
+		}
+		exp.appendChild(listLink);
+	} else {
+		var span = document.createElement("span");
+		span.innerHTML = campaignArray;
+		exp.appendChild(span);
+	}
+	showBubble();
+	
+}
+
+function changeBubble(mouseOver) {
+	//var actualElement = mouseOver.currentTarget;
+	var actualElement = mouseOver;
+	//var idKey = actualElement.id;
+	var showcase = document.getElementById("explainbubble");
+	var viewPortOffsetBody = document.body.getBoundingClientRect();
+	var viewPortOffsetElement = actualElement.getBoundingClientRect();
+	var offsetX = (viewPortOffsetElement.left - viewPortOffsetBody.left);
+	//var offsetY = (viewPortOffsetElement.bottom - viewPortOffsetBody.bottom + 300);
+	//var offsetY = (viewPortOffsetElement.bottom - viewPortOffsetBody.bottom - 352);
+	//var offsetY = (viewPortOffsetElement.top - viewPortOffsetBody.top - 352);
+	var offsetY = (viewPortOffsetElement.top - viewPortOffsetBody.top);
+	
+	//var showText = loadBubble(idKey);
+	//showcase.innerHTML = showText;
+	//showcase.title = showText;
+	showcase.style.display = "block";
+	//showcase.style.bottom = offsetY + "px";
+	showcase.style.top = offsetY + "px";
+	showcase.style.left = offsetX + "px";
+}
+
+function repositionBubbleGoogle(element) {
+	var textHeight = element.getBoundingClientRect().height;
+	var exp = document.getElementById("explainbubble");
+	var expHeight = exp.getBoundingClientRect().height;
+	//var expHeight = 0;
+	//var temp = exp.style.top.replace("px","") - expHeight - textHeight;
+	var temp = exp.style.top.replace("px","") - expHeight - 387;
+	//exp.style.top = temp;
+	exp.style.top = temp + "px";
+	exp.style.left = "85px";
+}
+
+function repositionBubble(element) {
+	var textHeight = element.getBoundingClientRect().height;
+	var exp = document.getElementById("explainbubble");
+	var expHeight = exp.getBoundingClientRect().height;
+	//var expHeight = 0;
+	//var temp = exp.style.top.replace("px","") - expHeight - textHeight;
+	var temp = exp.style.top.replace("px","") - expHeight;
+	//exp.style.top = temp;
+	exp.style.top = temp + "px";
+}
+
+function showdetaildatagoogle(list, iContent) {
+	
+	var newRow = document.createElement("tr");
+	var nRowText = document.createElement("td");
+	var nRowStatus = document.createElement("td");
+	var nRowMaxCpc = document.createElement("td");
+	var nRowClicks = document.createElement("td");
+	var nRowImpressions = document.createElement("td");
+	var nRowCtr = document.createElement("td");
+	var nRowAvgCpc = document.createElement("td");
+	var nRowCost = document.createElement("td");
+	var nRowAvgPos = document.createElement("td");
+	
+	var tempStatus = iContent["status"] == "enabled" ? "Aktiviert" : "Deaktiviert";
+	
+	var tempMaxCpc = iContent["cpcBid"] / 1000000;
+	var tempAvgCpc = iContent["averageCpc"] / 1000000;
+	var tempCost = iContent["cost"] / 1000000;
+	
+	nRowText.innerHTML = iContent["text"];
+	nRowStatus.innerHTML = tempStatus;
+	nRowMaxCpc.innerHTML = setThousandsPoint(tempMaxCpc.toFixed(2).replace(".",",")) + " €";
+	nRowMaxCpc.style.textAlign = "right";
+	nRowClicks.innerHTML = setThousandsPoint(iContent["clicks"]);
+	nRowClicks.style.textAlign = "right";
+	nRowImpressions.innerHTML = setThousandsPoint(iContent["impressions"]);
+	nRowImpressions.style.textAlign = "right";
+	nRowCtr.innerHTML = setThousandsPoint(iContent["ctr"].replace(".",","));
+	nRowCtr.style.textAlign = "right";
+	nRowAvgCpc.innerHTML = setThousandsPoint(tempAvgCpc.toFixed(2).replace(".",",")) + " €";
+	nRowAvgCpc.style.textAlign = "right";
+	nRowCost.innerHTML = setThousandsPoint(tempCost.toFixed(2).replace(".",",")) + " €";
+	nRowCost.style.textAlign = "right";
+	nRowAvgPos.innerHTML = iContent["averagePosition"].replace(".",",");
+	nRowAvgPos.style.textAlign = "right";
+	
+	newRow.appendChild(nRowText);
+	newRow.appendChild(nRowStatus);
+	newRow.appendChild(nRowMaxCpc);
+	newRow.appendChild(nRowClicks);
+	newRow.appendChild(nRowImpressions);
+	newRow.appendChild(nRowCtr);
+	newRow.appendChild(nRowAvgCpc);
+	newRow.appendChild(nRowCost);
+	newRow.appendChild(nRowAvgPos);
+	list.appendChild(newRow);
+	
+}
+
+function showdetaildata(list, iName, iContent, iHost , isgoogle) {
+	if (isgoogle && iName == "cost") {
+		iContent = parseInt(iContent) > 0 ? parseInt(iContent) / 1000000 : 0;
+	}
+	var listElement = document.createElement("li");
+	//listElement.onMouseOver
+	var link = document.createElement("a");
+	var testtext = isgoogle ? "Google" : "Facebook";
+	var tempName = iName;
+	for (var i = 0; i < fbfieldexplain["field"].length; i++) {
+		if (iName == fbfieldexplain["field"][i]["name"]) {
+			tempName = fbfieldexplain["field"][i]["screen"];
+			break;
+		}
+	}
+	var linkText = '<strong class="float-left">' + tempName + ':</strong> <span class="float-right">' + iContent + "</span><br/><small>Got Data Live On " + testtext + "</small>";
+	link.innerHTML = linkText;
+	listElement.appendChild(link);
+	list.appendChild(listElement);
+}
+
+function timeArray() {
+	var date_start = makeTimePractical(chosenStartDateGlobal).split("-");
+	var date_stop = makeTimePractical(chosenEndDateGlobal).split("-");
+	//var date_start = makeTimePractical(document.getElementById("datumstart").value).split("-");
+	//var date_stop = makeTimePractical(document.getElementById("datumende").value).split("-");
+	var date_array = new Array();
+	var daycount = getDayCount(date_start, date_stop);
+	var day = parseInt(date_start[2]);
+	var month = parseInt(date_start[1]);
+	var year = parseInt(date_start[0]);
+	for(var i = 0; i < daycount; i++) {
+		date_array[i] = new Array();
+		var str_month = month < 10 ? "0" + month : month;
+		var str_day = day < 10 ? "0" + day : day;
+		date_array[i]["date_start"] = year + "-" + str_month + "-" + str_day;
+		day++;
+		if(day >= dayInMonth(month, year)) {
+			day = 1;
+			month++;
+			if(month >= 12) {
+				month = 1;
+				year++;
+			}
+		}
+	}
+	return date_array;
+}
+
+function makeTimeReadable(timeString) {
+	var dateArray = timeString.split("-");
+	var readable = dateArray[2] + "." + dateArray[1] + "." + dateArray[0];
+	return readable;
+}
+
+function makeTimePractical(timeString) {
+	var dateArray = timeString.split(".");
+	var practical = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
+	return practical;
+}
+
+function getDayCount(date_start, date_stop) {
+	var year_start = date_start[0];
+	var month_start = date_start[1];
+	var day_start = date_start[2];
+	var year_stop = date_stop[0];
+	var month_stop = date_stop[1];
+	var day_stop = date_stop[2];
+	var daycount = 0;
+	var isRunning = true;
+	var limit = 100;
+	while(isRunning && limit >= 0) {
+		if(day_stop == day_start && month_stop == month_start && year_stop == year_start) {
+			isRunning = false;
+		} else {
+			day_stop--;
+			if(day_stop <= 0) {
+				month_stop--;
+				if(month_stop <= 0) {
+					year_stop--;
+					month_stop = 12;
+				}
+				day_stop = dayInMonth(month_stop, year_stop);
+			}
+		}
+		daycount++;
+		limit--;
+	}
+	//console.log(limit);
+	return daycount;
+}
+
+function isLeapYear(year) {
+	if(year % 400 == 0) {
+		return true;
+	} else if (year % 100 == 0) {
+		return false;
+	} else if (year % 4 == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function dayInMonth(month, year) {
+	var day = 0;
+	switch (month) {
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+			day = 31;
+			break;
+		case 2:
+			day = isLeapYear(year) ? 29 : 28;
+			break;
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			day = 30;
+			break;
+	}
+	return day;
+}
+
+function checkDouble(completeArray, searchstring) {
+	var size = completeArray.length;
+	for(var i = 0; i < size; i++) {
+		if (completeArray[i] == searchstring)
+			return true;
+	}
+	return false;
+}
+
+function getToday() {
+	var date = new Date();
+	var dd = date.getDate();
+	var mm = date.getMonth() + 1;
+	var yyyy = date.getFullYear();
+	
+	dd = dd < 10 ? "0" + dd : dd;
+	mm = mm < 10 ? "0" + mm : mm;
+	date_today = yyyy + "-" + mm + "-" + dd;
+}
+    var datumstart = $('#datumstart').val();
+    var datumende = $('#datumende').val();
+
+$('#datumstart').datepick({
+    dateFormat: 'dd.mm.yyyy',
+    onSelect: function () {
+        if ($('#datumstart').val() != datumstart) {
+            //jsFunction(true);
+        }
+
+    },
+    alignment: 'bottom',
+    showOtherMonths: true,
+    selectOtherMonths: true,
+    renderer: {
+        picker: '<div class="datepick block-border clearfix form"><div class="mini-calendar clearfix">' +
+        '{months}</div></div>',
+        monthRow: '{months}',
+        month: '<div class="calendar-controls" style="white-space: nowrap">' +
+        '{monthHeader:M yyyy}' +
+        '</div>' +
+        '<table cellspacing="0">' +
+        '<thead>{weekHeader}</thead>' +
+        '<tbody>{weeks}</tbody></table>',
+        weekHeader: '<tr>{days}</tr>',
+        dayHeader: '<th>{day}</th>',
+        week: '<tr>{days}</tr>',
+        day: '<td>{day}</td>',
+        monthSelector: '.month',
+        daySelector: 'td',
+        rtlClass: 'rtl',
+        multiClass: 'multi',
+        defaultClass: 'default',
+        selectedClass: 'selected',
+        highlightedClass: 'highlight',
+        todayClass: 'today',
+        otherMonthClass: 'other-month',
+        weekendClass: 'week-end',
+        commandClass: 'calendar',
+        commandLinkClass: 'button',
+        disabledClass: 'unavailable'
+
+    },
+    regionalOptions: ['de']
+
+});
+
+$('#datumende').datepick({
+    dateFormat: 'dd.mm.yyyy',
+    onSelect: function () {
+        if ($('#datumende').val() != datumende) {
+            //jsFunction(true);
+        }
+
+    },
+    alignment: 'bottom',
+    showOtherMonths: true,
+    selectOtherMonths: true,
+    renderer: {
+        picker: '<div class="datepick block-border clearfix form"><div class="mini-calendar clearfix">' +
+        '{months}</div></div>',
+        monthRow: '{months}',
+        month: '<div class="calendar-controls" style="white-space: nowrap">' +
+        '{monthHeader:M yyyy}' +
+        '</div>' +
+        '<table cellspacing="0">' +
+        '<thead>{weekHeader}</thead>' +
+        '<tbody>{weeks}</tbody></table>',
+        weekHeader: '<tr>{days}</tr>',
+        dayHeader: '<th>{day}</th>',
+        week: '<tr>{days}</tr>',
+        day: '<td>{day}</td>',
+        monthSelector: '.month',
+        daySelector: 'td',
+        rtlClass: 'rtl',
+        multiClass: 'multi',
+        defaultClass: 'default',
+        selectedClass: 'selected',
+        highlightedClass: 'highlight',
+        todayClass: 'today',
+        otherMonthClass: 'other-month',
+        weekendClass: 'week-end',
+        commandClass: 'calendar',
+        commandLinkClass: 'button',
+        disabledClass: 'unavailable'
+
+    },
+    regionalOptions: ['de']
+
+});
+
+$('.triggerstart').click(function () {
+    $('#datumstart').datepick('show');
+});
+
+$('.triggerende').click(function () {
+    $('#datumende').datepick('show');
+});
+
+function isDateBetween(search_date, dateFrom, dateTo) {
+    var checkDate = search_date.split("-");
+    var dateFromArray = dateFrom.split("-");
+    var dateToArray = dateTo.split("-");
+    
+    var from = new Date(dateFromArray[0], dateFromArray[1], dateFromArray[2]);
+    var to = new Date(dateToArray[0], dateToArray[1], dateToArray[2]);
+    var check = new Date(checkDate[0], checkDate[1], checkDate[2]);
+    return check >= from && check <= to;
+}
